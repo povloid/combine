@@ -1,11 +1,11 @@
 package pk.home.libs.combine.web.jsf;
 
-public class OrderingPaginateButton {
+public class OrderingPaginationButton {
 
 	private String caption;
 	private String ppage;
 
-	public OrderingPaginateButton(String caption, String ppage) {
+	public OrderingPaginationButton(String caption, String ppage) {
 		super();
 		this.caption = caption;
 		this.ppage = ppage;

@@ -3,13 +3,13 @@ package pk.home.libs.combine.service;
 import java.util.List;
 import javax.persistence.metamodel.SingularAttribute;
 import org.springframework.transaction.annotation.Transactional;
-import pk.home.libs.combine.dao.AbstractBasicDAO;
-import pk.home.libs.combine.dao.AbstractBasicDAO.SortOrderType;
+import pk.home.libs.combine.dao.ABaseDAO;
+import pk.home.libs.combine.dao.ABaseDAO.SortOrderType;
 
 
-public abstract class AbstractBasicService<T extends Object> {
+public abstract class ABaseService<T extends Object> {
 
-	public abstract AbstractBasicDAO<T> getAbstractBasicDAO();
+	public abstract ABaseDAO<T> getAbstractBasicDAO();
 
 	@Transactional
 	public T persist(T o) throws Exception {

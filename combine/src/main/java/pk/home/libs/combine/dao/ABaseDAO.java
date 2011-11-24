@@ -11,7 +11,7 @@ import javax.persistence.TypedQuery;
 import org.springframework.transaction.annotation.Transactional;
 
 
-public abstract class AbstractBasicDAO<T extends Object> {
+public abstract class ABaseDAO<T extends Object> {
 
 	/**
 	 * For all queries executed by this class, it is assumed that the desired

@@ -5,7 +5,7 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
-import pk.home.libs.combine.dao.AbstractBasicDAO.SortOrderType;
+import pk.home.libs.combine.dao.ABaseDAO.SortOrderType;
 
 
 
@@ -110,9 +110,9 @@ public abstract class ABaseLazyLoadTableView<T extends Object> {
 			int iend = page + part > allPagesCount ? allPagesCount : page
 					+ part;
 
-			oPButtons = new ArrayList<OrderingPaginateButton>();
+			oPButtons = new ArrayList<OrderingPaginationButton>();
 			for (int i = ibegin; i < iend + 1; i++) {
-				oPButtons.add(new OrderingPaginateButton(i + "", i + ""));
+				oPButtons.add(new OrderingPaginationButton(i + "", i + ""));
 			}
 		}
 	}
@@ -141,7 +141,7 @@ public abstract class ABaseLazyLoadTableView<T extends Object> {
 
 	public static final int maxOPButtons = 10;
 
-	private List<OrderingPaginateButton> oPButtons;
+	private List<OrderingPaginationButton> oPButtons;
 
 	// ----------------------------------------------------------------------------------------------------------------
 	// Simple table render
@@ -155,7 +155,7 @@ public abstract class ABaseLazyLoadTableView<T extends Object> {
 		return prows;
 	}
 
-	public List<OrderingPaginateButton> getoPButtons() {
+	public List<OrderingPaginationButton> getoPButtons() {
 		return oPButtons;
 	}
 
