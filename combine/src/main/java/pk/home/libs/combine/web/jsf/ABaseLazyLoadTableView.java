@@ -61,6 +61,10 @@ public abstract class ABaseLazyLoadTableView<T extends Object> {
 	protected Integer page = 1;
 	protected String csortOrder = "desc"; 
 	protected String csortField;
+	
+	
+	//selected bean parametr
+	protected T selected;
 
 	// calculate bean params
 	protected int allPagesCount;
@@ -235,4 +239,15 @@ public abstract class ABaseLazyLoadTableView<T extends Object> {
 		this.csortField = csortField;
 	}
 
+	public T getSelected() {
+		return selected;
+	}
+
+	public void setSelected(T selected) {
+		this.selected = selected;
+	}
+
+	
+	
+	
 }
