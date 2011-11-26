@@ -10,7 +10,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import org.springframework.transaction.annotation.Transactional;
 
-
 public abstract class ABaseDAO<T extends Object> {
 
 	/**
@@ -64,21 +63,24 @@ public abstract class ABaseDAO<T extends Object> {
 	}
 
 	@Transactional
-	public List<T> getAllEntities(SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder)
-			throws Exception {
+	public List<T> getAllEntities(SingularAttribute<T, ?> orderByAttribute,
+			SortOrderType sortOrder) throws Exception {
 		return getAllEntities(true, -1, -1, orderByAttribute, sortOrder);
 	}
 
 	@Transactional
 	public List<T> getAllEntities(int firstResult, int maxResults)
 			throws Exception {
-		return getAllEntities(false, firstResult, maxResults, null, SortOrderType.ASC);
+		return getAllEntities(false, firstResult, maxResults, null,
+				SortOrderType.ASC);
 	}
 
 	@Transactional
 	public List<T> getAllEntities(int firstResult, int maxResults,
-			SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder) throws Exception {
-		return getAllEntities(false, firstResult, maxResults, orderByAttribute, sortOrder);
+			SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder)
+			throws Exception {
+		return getAllEntities(false, firstResult, maxResults, orderByAttribute,
+				sortOrder);
 	}
 
 	@Transactional
@@ -104,7 +106,7 @@ public abstract class ABaseDAO<T extends Object> {
 				cq.orderBy(cb.asc(t.get(orderByAttribute)));
 				break;
 			}
-			
+
 		}
 
 		TypedQuery<T> q = getEntityManager().createQuery(cq);
@@ -320,6 +322,133 @@ public abstract class ABaseDAO<T extends Object> {
 			Integer firstResult, Integer maxResults, Object... parameters) {
 		TypedQuery<T> query = getEntityManager().createQuery(queryString,
 				resultClass);
+		if (parameters != null) {
+			for (int i = 0; i < parameters.length; i++) {
+				query.setParameter(i + 1, parameters[i]);
+			}
+		}
+
+		query.setFirstResult(firstResult == null || firstResult < 0 ? DEFAULT_FIRST_RESULT_INDEX
+				: firstResult);
+		if (maxResults != null && maxResults > 0) {
+			query.setMaxResults(maxResults);
+		}
+
+		return query;
+	}
+
+	// BASIC *****************************************************************
+
+	@Transactional
+	public Object executeQueryByNameSingleResultO(String queryName) {
+		return executeQueryByNameSingleResult(queryName, (Object[]) null);
+	}
+
+	@Transactional
+	public Object executeQueryByNameSingleResultO(String queryName,
+			Object... parameters) {
+		Query query = createNamedQuery(queryName, DEFAULT_FIRST_RESULT_INDEX,
+				1, parameters);
+		return query.getSingleResult();
+	}
+
+	@Transactional
+	public List<Object> executeQueryByNameO(String queryName) {
+		return executeQueryByNameO(queryName, DEFAULT_FIRST_RESULT_INDEX,
+				getDefaultMaxResults());
+	}
+
+	@Transactional
+	public List<Object> executeQueryByNameO(String queryName,
+			Integer firstResult, Integer maxResults) {
+		return executeQueryByNameO(queryName, firstResult, maxResults,
+				(Object[]) null);
+	}
+
+	@Transactional
+	public List<Object> executeQueryByNameO(String queryName,
+			Object... parameters) {
+		return executeQueryByNameO(queryName, DEFAULT_FIRST_RESULT_INDEX,
+				getDefaultMaxResults(), parameters);
+	}
+
+	@Transactional
+	public List<Object> executeQueryByNameO(String queryName,
+			Integer firstResult, Integer maxResults, Object... parameters) {
+		TypedQuery<Object> query = createNamedQueryObj(queryName, firstResult,
+				maxResults, parameters);
+		return query.getResultList();
+	}
+
+	@Transactional
+	public TypedQuery<Object> createNamedQueryObj(String queryName,
+			Integer firstResult, Integer maxResults, Object... parameters) {
+		TypedQuery<Object> query = getEntityManager().createNamedQuery(
+				queryName, Object.class);
+		if (parameters != null) {
+			for (int i = 0; i < parameters.length; i++) {
+				query.setParameter(i + 1, parameters[i]);
+			}
+		}
+
+		query.setFirstResult(firstResult == null || firstResult < 0 ? DEFAULT_FIRST_RESULT_INDEX
+				: firstResult);
+		if (maxResults != null && maxResults > 0) {
+			query.setMaxResults(maxResults);
+		}
+
+		return query;
+	}
+
+	// -------------------------
+
+	@Transactional
+	public List<Object> executeQueryO(String queryString, Integer firstResult,
+			Integer maxResults, Object... parameters) {
+		TypedQuery<Object> query = createQueryObj(queryString, firstResult,
+				maxResults, parameters);
+		return query.getResultList();
+	}
+
+	@Transactional
+	public List<Object> executeQueryO(String queryString, Object... parameters) {
+		TypedQuery<Object> query = createQueryObj(queryString,
+				DEFAULT_FIRST_RESULT_INDEX, getDefaultMaxResults(), parameters);
+		return query.getResultList();
+	}
+
+	@Transactional
+	public Object executeQuerySingleResultO(String queryString) {
+		return executeQuerySingleResult(queryString, (Object[]) null);
+	}
+
+	@Transactional
+	public Object executeQuerySingleResultO(String queryString,
+			Object... parameters) {
+		TypedQuery<Object> query = createQuerySingleResultObj(queryString,
+				parameters);
+		return query.getSingleResult();
+	}
+
+	@Transactional
+	public TypedQuery<Object> createQuerySingleResultObj(String queryString,
+			Object... parameters) {
+		return createQueryObj(queryString, DEFAULT_FIRST_RESULT_INDEX, 1,
+				parameters);
+	}
+
+	@Transactional
+	public TypedQuery<Object> createQueryObj(String queryString,
+			Integer firstResult, Integer maxResults) {
+		return createQueryObj(queryString, firstResult, maxResults,
+				(Object[]) null);
+	}
+
+	@Transactional
+	public TypedQuery<Object> createQueryObj(String queryString,
+			Integer firstResult, Integer maxResults, Object... parameters) {
+		TypedQuery<Object> query = getEntityManager().createQuery(queryString,
+				Object.class);
 		if (parameters != null) {
 			for (int i = 0; i < parameters.length; i++) {
 				query.setParameter(i + 1, parameters[i]);
