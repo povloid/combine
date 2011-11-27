@@ -6,10 +6,10 @@ import javax.faces.context.FacesContext;
 /**
  * The tree abstract base class
  * 
- *  
+ * 
  * 
  * @author povloid
- *
+ * 
  * @param <T>
  */
 public abstract class ABaseTree<T extends Object> {
@@ -22,12 +22,18 @@ public abstract class ABaseTree<T extends Object> {
 	 */
 	public void init() {
 		try {
-			this.selected = findSelectedObject(this.sKey);
+
+			if (this.sKey == null || this.sKey.length() == 0)
+				this.selected = null;
+			else
+				this.selected = findSelectedObject(this.sKey);
+
 			prepereParams();
 			aInit();
 
 			// initialize childrens
-			getABaseLazyLoadTableView().init();
+			if (getABaseLazyLoadTableView() != null)
+				getABaseLazyLoadTableView().init();
 		} catch (Exception e) {
 			e.printStackTrace();
 			FacesContext.getCurrentInstance().addMessage(
@@ -60,7 +66,7 @@ public abstract class ABaseTree<T extends Object> {
 
 	// request params
 	private Integer prows = 10;
-	private Integer ppage;
+	private Integer ppage = 1;
 	private String pcsortOrder;
 	private String pcsortField;
 
@@ -78,17 +84,28 @@ public abstract class ABaseTree<T extends Object> {
 	 */
 	private void prepereParams() throws Exception {
 
-		if (this.lastSKey.equals(this.sKey)) { 
+		if (getABaseLazyLoadTableView() != null) {
+			if (this.sKey == null && this.lastSKey == null || this.sKey != null
+					&& this.lastSKey != null && this.lastSKey.equals(this.sKey)) {
+				System.out.println(">>>>1");
+
+			} else {
+				System.out.println(">>>>2");
+
+				prows = 10;
+				ppage = 1;
+				pcsortOrder = null;
+				pcsortField = null;
+			}
+
 			getABaseLazyLoadTableView().setPage(ppage);
 			getABaseLazyLoadTableView().setRows(prows);
-			getABaseLazyLoadTableView().setPcsortOrder(pcsortOrder);
-			getABaseLazyLoadTableView().setPcsortField(pcsortField);
-		} else {
-			getABaseLazyLoadTableView().setPage(0);
-			getABaseLazyLoadTableView().setRows(10);
-			getABaseLazyLoadTableView().setPcsortOrder(null);
-			getABaseLazyLoadTableView().setPcsortField(null);
+			getABaseLazyLoadTableView().setCsortOrder(pcsortOrder);
+			getABaseLazyLoadTableView().setCsortField(pcsortField);
+
 		}
+
+		System.out.println(">>>sKey=" + sKey + "; lastKey=" + lastSKey);
 
 		this.lastSKey = this.sKey;
 	}

@@ -339,19 +339,24 @@ public abstract class ABaseDAO<T extends Object> {
 
 	// BASIC *****************************************************************
 
+	// -------
+	
 	@Transactional
 	public Object executeQueryByNameSingleResultO(String queryName) {
-		return executeQueryByNameSingleResult(queryName, (Object[]) null);
+		return executeQueryByNameSingleResultO(queryName, (Object[]) null);
 	}
 
 	@Transactional
 	public Object executeQueryByNameSingleResultO(String queryName,
 			Object... parameters) {
-		Query query = createNamedQuery(queryName, DEFAULT_FIRST_RESULT_INDEX,
+		Query query = createNamedQueryObj(queryName, DEFAULT_FIRST_RESULT_INDEX,
 				1, parameters);
 		return query.getSingleResult();
 	}
 
+	
+	// -------
+	
 	@Transactional
 	public List<Object> executeQueryByNameO(String queryName) {
 		return executeQueryByNameO(queryName, DEFAULT_FIRST_RESULT_INDEX,
@@ -379,6 +384,9 @@ public abstract class ABaseDAO<T extends Object> {
 				maxResults, parameters);
 		return query.getResultList();
 	}
+	
+	// --------
+	
 
 	@Transactional
 	public TypedQuery<Object> createNamedQueryObj(String queryName,

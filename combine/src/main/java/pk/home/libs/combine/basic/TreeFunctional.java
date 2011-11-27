@@ -5,6 +5,10 @@ package pk.home.libs.combine.basic;
 
 import java.util.List;
 
+import javax.persistence.metamodel.SingularAttribute;
+
+import pk.home.libs.combine.dao.ABaseDAO.SortOrderType;
+
 /**
  * 
  * Интерфейс, описывающи функционал работы с деревом
@@ -23,6 +27,9 @@ public interface TreeFunctional <T extends Object>{
 	 */
 	long getChildrensCount(T parent) throws Exception;
 	
+	
+	// ----------------------------------------------------------------------------------------------------------------
+	
 	/**
 	 * Получить список дочерних объектов
 	 * @param parent
@@ -31,6 +38,46 @@ public interface TreeFunctional <T extends Object>{
 	 */
 	List<T> getChildrens(T parent) throws Exception;
 	
+	
+	/**
+	 * Получить список дочерних объектов cс сортировкой
+	 * @param parent
+	 * @param orderByAttribute
+	 * @param sortOrder
+	 * @return
+	 * @throws Exception
+	 */
+	List<T> getChildrens(T parent, SingularAttribute<T, ?> orderByAttribute,
+			SortOrderType sortOrder) throws Exception;
+	
+	
+	/**
+	 * Получить список дочерних объектов - порционно
+	 * @param parent
+	 * @param firstResult
+	 * @param maxResults
+	 * @return
+	 * @throws Exception
+	 */
+	List<T> getChildrens(T parent, int firstResult, int maxResults) throws Exception;
+	
+	/**
+	 * Получить список дочерних объектов - порционно и сортируя
+	 * @param parent
+	 * @param all
+	 * @param firstResult
+	 * @param maxResults
+	 * @param orderByAttribute
+	 * @param sortOrder
+	 * @return
+	 * @throws Exception
+	 */
+	List<T> getChildrens(T parent, boolean all, int firstResult, int maxResults,
+			SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder) throws Exception;
+	
+	
+	// ----------------------------------------------------------------------------------------------------------------
+	
 	/**
 	 * Установить нового родителя
 	 * @param object
@@ -38,6 +85,9 @@ public interface TreeFunctional <T extends Object>{
 	 * @throws Exception
 	 */
 	void setParent(T object, T parent) throws Exception;
+
+
+	
 	
 	
 	
