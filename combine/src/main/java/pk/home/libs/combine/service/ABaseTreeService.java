@@ -31,9 +31,30 @@ public abstract class ABaseTreeService<T extends Object> extends
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void setParent(List<T> objects, T parent) throws Exception {
 		for (T object : objects) {
-			getAbstractBasicTreeDAO().setParent(object, parent);
+			setParent(object, parent);
 		}
 	}
+	
+	/**
+	 * Метод группового присвоения родителя
+	 * 
+	 * Данный метод вынесен на уровень сервиса потому что работа с деревьями
+	 * может быть разная, например с деревьями в которых возможно замыкание
+	 * ветвей самих на себя
+	 * 
+	 * @param objects
+	 * @param parent
+	 * @throws Exception
+	 */
+	@ExceptionHandler(Exception.class)
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public void setParent(T[] objects, T parent) throws Exception {
+		for (T object : objects) {
+			setParent(object, parent);
+		}
+	}
+	
+	
 
 	// ----------------------------------------------------------------------------------------------------------------
 

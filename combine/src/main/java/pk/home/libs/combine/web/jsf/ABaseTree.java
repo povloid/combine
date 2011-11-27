@@ -1,5 +1,10 @@
 package pk.home.libs.combine.web.jsf;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
@@ -76,6 +81,9 @@ public abstract class ABaseTree<T extends Object> {
 
 	// selected bean parametr
 	protected T selected;
+	
+	private Map<T, Object> multiselected = new HashMap<T, Object>();
+    private List<T> buffer = new ArrayList<T>();
 
 	/**
 	 * prepere params
@@ -117,7 +125,65 @@ public abstract class ABaseTree<T extends Object> {
 	 * @throws Exception
 	 */
 	protected abstract T findSelectedObject(String sKey) throws Exception;
-
+	
+	// buffer ------------------------
+	
+	/**
+	 * Copy selected rows to buffer
+	 */
+	public void copyMultiselectedToBuffer(){
+		buffer.clear();
+		
+		for(T t: multiselected.keySet()){
+			System.out.println(">>>>>" + t + " is selected - " + multiselected.get(t).getClass());
+			
+			Object val = multiselected.get(t);
+			Boolean bvalue = false;
+			
+			if(val instanceof String){
+				System.out.println(">>>>>value is String");
+				bvalue = ((String) val).trim().toLowerCase().equals("true");
+			} else if (val instanceof Boolean){
+				System.out.println(">>>>>value is Boolean");
+				bvalue = (Boolean) val;
+			}
+			
+			if(bvalue)
+				buffer.add(t);
+		}
+		
+		multiselected.clear();
+	}
+	
+	
+	/**
+	 * Set new parent action
+	 */
+	public void setNewParent(){
+		try {
+			
+			if(buffer != null){
+				asetNewParent(buffer);
+				buffer.clear();
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: ", e
+							.getMessage()));
+		}
+	}
+	
+	/**
+	 * Childern impliments set new parent action
+	 * @throws Exception
+	 */
+	protected abstract void asetNewParent(List<T> buffer) throws Exception;
+	
+	
+	
 	// Path
 	// ------------------------------------------------------------------------------
 
@@ -190,4 +256,26 @@ public abstract class ABaseTree<T extends Object> {
 		this.sKey = sKey;
 	}
 
+	public Map<T, Object> getMultiselected() {
+		return multiselected;
+	}
+
+	public void setMultiselected(Map<T, Object> multiselected) {
+		this.multiselected = multiselected;
+	}
+
+	public List<T> getBuffer() {
+		return buffer;
+	}
+
+	public void setBuffer(List<T> buffer) {
+		this.buffer = buffer;
+	}
+
+	
+	
+	
+	
+	
+	
 }
