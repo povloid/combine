@@ -34,7 +34,7 @@ public abstract class ABaseTreeService<T extends Object> extends
 			setParent(object, parent);
 		}
 	}
-	
+
 	/**
 	 * Метод группового присвоения родителя
 	 * 
@@ -53,40 +53,94 @@ public abstract class ABaseTreeService<T extends Object> extends
 			setParent(object, parent);
 		}
 	}
-	
-	
 
 	// ----------------------------------------------------------------------------------------------------------------
 
-	@Override
-	@Transactional
-	public List<T> getChildrens(T parent) throws Exception {
-		return getChildrens(parent, true, -1, -1, null, SortOrderType.ASC);
-	}
+	// @Override
+	// @Transactional
+	// public List<T> getChildrens(T parent) throws Exception {
+	// return getChildrens(parent, true, -1, -1, null, SortOrderType.ASC);
+	// }
+	//
+	// @Override
+	// @Transactional
+	// public List<T> getChildrens(T parent,
+	// SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder)
+	// throws Exception {
+	// return getChildrens(parent, true, -1, -1, orderByAttribute, sortOrder);
+	// }
+	//
+	// @Override
+	// @Transactional
+	// public List<T> getChildrens(T parent, int firstResult, int maxResults)
+	// throws Exception {
+	// return getChildrens(parent, false, firstResult, maxResults, null,
+	// SortOrderType.ASC);
+	// }
+	//
+	// @Override
+	// @Transactional
+	// public List<T> getChildrens(T parent, boolean all, int firstResult,
+	// int maxResults, SingularAttribute<T, ?> orderByAttribute,
+	// SortOrderType sortOrder) throws Exception {
+	// return getAbstractBasicTreeDAO().getChildrens(parent, all, firstResult,
+	// maxResults, orderByAttribute, sortOrder);
+	// }
 
 	@Override
 	@Transactional
-	public List<T> getChildrens(T parent,
-			SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder)
+	public List<T> getChildrens(T parent, SingularAttribute<T, ?> parent_)
 			throws Exception {
-		return getChildrens(parent, true, -1, -1, orderByAttribute, sortOrder);
-	}
-
-	@Override
-	@Transactional
-	public List<T> getChildrens(T parent, int firstResult, int maxResults)
-			throws Exception {
-		return getChildrens(parent, false, firstResult, maxResults, null,
+		return getChildrens(parent, parent_, true, -1, -1, null,
 				SortOrderType.ASC);
 	}
 
 	@Override
 	@Transactional
-	public List<T> getChildrens(T parent, boolean all, int firstResult,
-			int maxResults, SingularAttribute<T, ?> orderByAttribute,
-			SortOrderType sortOrder) throws Exception {
-		return getAbstractBasicTreeDAO().getChildrens(parent, all, firstResult,
-				maxResults, orderByAttribute, sortOrder);
+	public List<T> getChildrens(T parent, SingularAttribute<T, ?> parent_,
+			SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder)
+			throws Exception {
+		return getChildrens(parent, parent_, true, -1, -1, orderByAttribute,
+				sortOrder);
 	}
+
+	@Override
+	@Transactional
+	public List<T> getChildrens(T parent, SingularAttribute<T, ?> parent_,
+			int firstResult, int maxResults) throws Exception {
+		return getChildrens(parent, parent_, false, firstResult, maxResults,
+				null, SortOrderType.ASC);
+	}
+	
+	@Override
+	@Transactional
+	public List<T> getChildrens(T parent, SingularAttribute<T, ?> parent_,
+			int firstResult, int maxResults,
+			SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder)
+			throws Exception{
+		return getChildrens(parent, parent_, false, firstResult, maxResults, orderByAttribute, sortOrder);
+	}
+	
+
+	@Override
+	@Transactional
+	public List<T> getChildrens(T parent, SingularAttribute<T, ?> parent_,
+			boolean all, int firstResult, int maxResults,
+			SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder)
+			throws Exception {
+		return getAbstractBasicTreeDAO().getChildrens(parent, parent_, all,
+				firstResult, maxResults, orderByAttribute, sortOrder);
+	}
+	
+	// ----------------------------------------------------------------------------------------------------------------
+	
+	@Override
+	@Transactional
+	public long  getChildrensCount(T parent, SingularAttribute<T, ?> parent_)
+			throws Exception {
+		return getAbstractBasicTreeDAO().getChildrensCount(parent, parent_);
+	}
+	
+	
 
 }

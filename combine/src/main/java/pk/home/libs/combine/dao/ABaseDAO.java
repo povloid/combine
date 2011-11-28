@@ -85,7 +85,7 @@ public abstract class ABaseDAO<T extends Object> {
 
 	@Transactional
 	public List<T> getAllEntities(boolean all, int firstResult, int maxResults,
-			SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder) {
+			SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder)  throws Exception {
 
 		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder(); // Только
 																		// так
@@ -107,13 +107,14 @@ public abstract class ABaseDAO<T extends Object> {
 				break;
 			}
 
-		}
+		}		
 
 		TypedQuery<T> q = getEntityManager().createQuery(cq);
 
 		if (!all) {
 			q.setMaxResults(maxResults);
-			q.setFirstResult(firstResult);
+			System.out.println(">>>firstResult = " + firstResult);
+			q.setFirstResult(firstResult >= 0? firstResult : 0);
 		}
 		return q.getResultList();
 	}

@@ -19,61 +19,61 @@ import pk.home.libs.combine.dao.ABaseDAO.SortOrderType;
  */
 public interface TreeFunctional <T extends Object>{
 		
-	/**
-	 * Получить количество дочерних объектов
-	 * @param parent
-	 * @return
-	 * @throws Exception
-	 */
-	long getChildrensCount(T parent) throws Exception;
-	
+//	/**
+//	 * Получить количество дочерних объектов
+//	 * @param parent
+//	 * @return
+//	 * @throws Exception
+//	 */
+//	long getChildrensCount(T parent) throws Exception;
+//	
 	
 	// ----------------------------------------------------------------------------------------------------------------
 	
-	/**
-	 * Получить список дочерних объектов
-	 * @param parent
-	 * @return
-	 * @throws Exception
-	 */
-	List<T> getChildrens(T parent) throws Exception;
-	
-	
-	/**
-	 * Получить список дочерних объектов cс сортировкой
-	 * @param parent
-	 * @param orderByAttribute
-	 * @param sortOrder
-	 * @return
-	 * @throws Exception
-	 */
-	List<T> getChildrens(T parent, SingularAttribute<T, ?> orderByAttribute,
-			SortOrderType sortOrder) throws Exception;
-	
-	
-	/**
-	 * Получить список дочерних объектов - порционно
-	 * @param parent
-	 * @param firstResult
-	 * @param maxResults
-	 * @return
-	 * @throws Exception
-	 */
-	List<T> getChildrens(T parent, int firstResult, int maxResults) throws Exception;
-	
-	/**
-	 * Получить список дочерних объектов - порционно и сортируя
-	 * @param parent
-	 * @param all
-	 * @param firstResult
-	 * @param maxResults
-	 * @param orderByAttribute
-	 * @param sortOrder
-	 * @return
-	 * @throws Exception
-	 */
-	List<T> getChildrens(T parent, boolean all, int firstResult, int maxResults,
-			SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder) throws Exception;
+//	/**
+//	 * Получить список дочерних объектов
+//	 * @param parent
+//	 * @return
+//	 * @throws Exception
+//	 */
+//	List<T> getChildrens(T parent) throws Exception;
+//	
+//	
+//	/**
+//	 * Получить список дочерних объектов cс сортировкой
+//	 * @param parent
+//	 * @param orderByAttribute
+//	 * @param sortOrder
+//	 * @return
+//	 * @throws Exception
+//	 */
+//	List<T> getChildrens(T parent, SingularAttribute<T, ?> orderByAttribute,
+//			SortOrderType sortOrder) throws Exception;
+//	
+//	
+//	/**
+//	 * Получить список дочерних объектов - порционно
+//	 * @param parent
+//	 * @param firstResult
+//	 * @param maxResults
+//	 * @return
+//	 * @throws Exception
+//	 */
+//	List<T> getChildrens(T parent, int firstResult, int maxResults) throws Exception;
+//	
+//	/**
+//	 * Получить список дочерних объектов - порционно и сортируя
+//	 * @param parent
+//	 * @param all
+//	 * @param firstResult
+//	 * @param maxResults
+//	 * @param orderByAttribute
+//	 * @param sortOrder
+//	 * @return
+//	 * @throws Exception
+//	 */
+//	List<T> getChildrens(T parent, boolean all, int firstResult, int maxResults,
+//			SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder) throws Exception;
 	
 	
 	// ----------------------------------------------------------------------------------------------------------------
@@ -87,7 +87,32 @@ public interface TreeFunctional <T extends Object>{
 	void setParent(T object, T parent) throws Exception;
 
 
+	List<T> getChildrens(T parent, SingularAttribute<T, ?> parent_)
+			throws Exception;
+
+
+	List<T> getChildrens(T parent, SingularAttribute<T, ?> parent_,
+			SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder)
+			throws Exception;
+
+
+	List<T> getChildrens(T parent, SingularAttribute<T, ?> parent_,
+			int firstResult, int maxResults) throws Exception;
+
 	
+	List<T> getChildrens(T parent, SingularAttribute<T, ?> parent_,
+			int firstResult, int maxResults,
+			SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder)
+			throws Exception;
+
+	List<T> getChildrens(T parent, SingularAttribute<T, ?> parent_,
+			boolean all, int firstResult, int maxResults,
+			SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder)
+			throws Exception;
+
+
+	long getChildrensCount(T parent, SingularAttribute<T, ?> parent_)
+			throws Exception;
 	
 	
 	
