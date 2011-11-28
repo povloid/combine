@@ -267,7 +267,7 @@ public abstract class ABaseDialog<T extends Object> {
 		String url = "";
 		try {
 			url = confirmAddImpl();
-
+			afterAnyConfirmAction();
 			redirect();
 
 		} catch (Exception e) {
@@ -329,6 +329,7 @@ public abstract class ABaseDialog<T extends Object> {
 		String url = "";
 		try {
 			url = confirmEditImpl();
+			afterAnyConfirmAction();
 
 			redirect();
 
@@ -389,7 +390,7 @@ public abstract class ABaseDialog<T extends Object> {
 		String url = "";
 		try {
 			url = confirmDelImpl();
-
+			afterAnyConfirmAction();
 			redirect();
 
 		} catch (Exception e) {
@@ -410,6 +411,17 @@ public abstract class ABaseDialog<T extends Object> {
 	 * @throws Exception
 	 */
 	protected abstract String confirmDelImpl() throws Exception;
+	
+	// --------------------------------------------------------------
+	
+	/**
+	 * After any confirmed action
+	 * @throws Exception
+	 */
+	protected void afterAnyConfirmAction() throws Exception{
+		
+	}
+	
 
 	// -----------------------------------------------------------------------------------------------------------------
 	// getters and setters
