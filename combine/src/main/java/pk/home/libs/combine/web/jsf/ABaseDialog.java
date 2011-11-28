@@ -112,6 +112,7 @@ public abstract class ABaseDialog<T extends Object> {
 
 	/**
 	 * Redirect to retUrl
+	 * 
 	 * @throws IOException
 	 */
 	protected void redirect() throws IOException {
@@ -120,8 +121,7 @@ public abstract class ABaseDialog<T extends Object> {
 			FacesContext.getCurrentInstance().getExternalContext()
 					.redirect(retUrl);
 	}
-	
-	
+
 	/**
 	 * Prepere mode actions
 	 * 
@@ -131,14 +131,20 @@ public abstract class ABaseDialog<T extends Object> {
 
 		if (mode != null) {
 			if (mode.equals(MODE_ADD)) {
+				beforeAddMakeMode();
 				this.edited = createNewEditedObject();
 				prepareAdd();
+				afterAddMakeMode();
 			} else if (mode.equals(MODE_EDIT)) {
+				beforeEditMakeMode();
 				this.edited = findEditedObject(this.sKey);
 				prepareEdit();
+				afterEditMakeMode();
 			} else if (mode.equals(MODE_DEL)) {
+				beforeDelMakeMode();
 				this.edited = findEditedObject(this.sKey);
 				prepareDel();
+				afterDelMakeMode();
 			} else {
 				throw new Exception("Error: Parametr mode is incorrect!");
 			}
@@ -148,10 +154,64 @@ public abstract class ABaseDialog<T extends Object> {
 
 	}
 
+	/**
+	 * Before add mode any actions
+	 * 
+	 * @throws Exception
+	 */
+	protected void beforeDelMakeMode() throws Exception {
+
+	}
+
+	/**
+	 * Before add mode any actions
+	 * 
+	 * @throws Exception
+	 */
+	protected void beforeEditMakeMode() throws Exception {
+
+	}
+
+	/**
+	 * Before add mode any actions
+	 * 
+	 * @throws Exception
+	 */
+	protected void beforeAddMakeMode() throws Exception {
+
+	}
+	
+	// -------
+	
+
+	/**
+	 * after add mode any actions
+	 * 
+	 * @throws Exception
+	 */
+	protected void afterDelMakeMode() throws Exception {
+	}
+
+	/**
+	 * after edit mode any actions
+	 * 
+	 * @throws Exception
+	 */
+	protected void afterEditMakeMode() throws Exception {
+	}
+
+	/**
+	 * after del mode any actions
+	 * 
+	 * @throws Exception
+	 */
+	protected void afterAddMakeMode() throws Exception {
+	}
+
 	// Actions
 	// ---------------------------------------------------------------------------------------------------------
-	
-	public String cancel(){
+
+	public String cancel() {
 		String url = "";
 		try {
 			redirect();
@@ -164,7 +224,6 @@ public abstract class ABaseDialog<T extends Object> {
 		}
 		return url;
 	}
-	
 
 	// ADD
 	// -------------------------------------------------------------------------
