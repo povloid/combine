@@ -85,6 +85,7 @@ public abstract class ABaseTreeDialog<T> extends ABaseDialog<T> {
 		try {
 			parent = null;
 			parentSKey = null;
+			
 			redirect(false);
 		} catch (Exception e) {
 			e.printStackTrace();

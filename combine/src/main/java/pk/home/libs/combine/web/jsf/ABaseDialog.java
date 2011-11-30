@@ -264,6 +264,43 @@ public abstract class ABaseDialog<T extends Object> {
 	protected abstract void prepareAddImpl() throws Exception;
 
 	// ---------------------------------------------------
+	
+	/**
+	 * Apply action, return the current page
+	 * 
+	 * @return
+	 */
+	public String apply() {
+		if (this.edited == null) {
+			return "";
+		}
+
+		try {
+			aApplyImpl();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: ", e
+							.getMessage()));
+		}
+
+		return null;
+	}
+	
+	
+	/**
+	 * Применить
+	 * @throws Exception
+	 */
+	protected void aApplyImpl() throws Exception{
+		
+	}
+	
+	
+	// ---------------------------------------------------
+	
 
 	/**
 	 * Action Conform add and return
