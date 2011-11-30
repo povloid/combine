@@ -5,6 +5,9 @@ import java.io.IOException;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 /**
  * @author povloid
  * 
@@ -70,6 +73,7 @@ public abstract class ABaseDialog<T extends Object> {
 	/**
 	 * View initialisation
 	 */
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void init() {
 		try {
 			makeMode();
@@ -127,6 +131,7 @@ public abstract class ABaseDialog<T extends Object> {
 	 * 
 	 * @throws Exception
 	 */
+	@Transactional
 	protected void makeMode() throws Exception {
 
 		if (mode != null) {
@@ -159,6 +164,7 @@ public abstract class ABaseDialog<T extends Object> {
 	 * 
 	 * @throws Exception
 	 */
+	@Transactional
 	protected void beforeDelMakeMode() throws Exception {
 
 	}
@@ -168,6 +174,7 @@ public abstract class ABaseDialog<T extends Object> {
 	 * 
 	 * @throws Exception
 	 */
+	@Transactional
 	protected void beforeEditMakeMode() throws Exception {
 
 	}
@@ -177,6 +184,7 @@ public abstract class ABaseDialog<T extends Object> {
 	 * 
 	 * @throws Exception
 	 */
+	@Transactional
 	protected void beforeAddMakeMode() throws Exception {
 
 	}
@@ -189,6 +197,7 @@ public abstract class ABaseDialog<T extends Object> {
 	 * 
 	 * @throws Exception
 	 */
+	@Transactional
 	protected void afterDelMakeMode() throws Exception {
 	}
 
@@ -197,6 +206,7 @@ public abstract class ABaseDialog<T extends Object> {
 	 * 
 	 * @throws Exception
 	 */
+	@Transactional
 	protected void afterEditMakeMode() throws Exception {
 	}
 
@@ -205,6 +215,7 @@ public abstract class ABaseDialog<T extends Object> {
 	 * 
 	 * @throws Exception
 	 */
+	@Transactional
 	protected void afterAddMakeMode() throws Exception {
 	}
 

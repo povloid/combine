@@ -8,6 +8,9 @@ import java.util.Map;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 /**
  * The tree abstract base class
  * 
@@ -25,6 +28,7 @@ public abstract class ABaseTree<T extends Object> {
 	/**
 	 * View initialisation
 	 */
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void init() {
 		try {
 

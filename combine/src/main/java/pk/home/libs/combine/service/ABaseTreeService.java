@@ -88,7 +88,7 @@ public abstract class ABaseTreeService<T extends Object> extends
 	// }
 
 	@Override
-	@Transactional
+	@Transactional(propagation = Propagation.REQUIRED,readOnly=true)
 	public List<T> getChildrens(T parent, SingularAttribute<T, ?> parent_)
 			throws Exception {
 		return getChildrens(parent, parent_, true, -1, -1, null,
@@ -96,7 +96,7 @@ public abstract class ABaseTreeService<T extends Object> extends
 	}
 
 	@Override
-	@Transactional
+	@Transactional(propagation = Propagation.REQUIRED,readOnly=true)
 	public List<T> getChildrens(T parent, SingularAttribute<T, ?> parent_,
 			SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder)
 			throws Exception {
@@ -105,7 +105,7 @@ public abstract class ABaseTreeService<T extends Object> extends
 	}
 
 	@Override
-	@Transactional
+	@Transactional(propagation = Propagation.REQUIRED,readOnly=true)
 	public List<T> getChildrens(T parent, SingularAttribute<T, ?> parent_,
 			int firstResult, int maxResults) throws Exception {
 		return getChildrens(parent, parent_, false, firstResult, maxResults,
@@ -113,7 +113,7 @@ public abstract class ABaseTreeService<T extends Object> extends
 	}
 	
 	@Override
-	@Transactional
+	@Transactional(propagation = Propagation.REQUIRED,readOnly=true)
 	public List<T> getChildrens(T parent, SingularAttribute<T, ?> parent_,
 			int firstResult, int maxResults,
 			SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder)
@@ -123,7 +123,7 @@ public abstract class ABaseTreeService<T extends Object> extends
 	
 
 	@Override
-	@Transactional
+	@Transactional(propagation = Propagation.REQUIRED,readOnly=true)
 	public List<T> getChildrens(T parent, SingularAttribute<T, ?> parent_,
 			boolean all, int firstResult, int maxResults,
 			SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder)
@@ -135,7 +135,7 @@ public abstract class ABaseTreeService<T extends Object> extends
 	// ----------------------------------------------------------------------------------------------------------------
 	
 	@Override
-	@Transactional
+	@Transactional(propagation = Propagation.REQUIRED,readOnly=true)
 	public long  getChildrensCount(T parent, SingularAttribute<T, ?> parent_)
 			throws Exception {
 		return getAbstractBasicTreeDAO().getChildrensCount(parent, parent_);
