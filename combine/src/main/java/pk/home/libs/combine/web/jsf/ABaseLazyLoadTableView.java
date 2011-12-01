@@ -5,9 +5,6 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
 import pk.home.libs.combine.dao.ABaseDAO.SortOrderType;
 
 
@@ -26,7 +23,6 @@ public abstract class ABaseLazyLoadTableView<T extends Object> {
 	/**
 	 * View initialisation
 	 */
-	@Transactional(propagation = Propagation.REQUIRED)
 	public void init() {
 		try {
 			prepereParams();

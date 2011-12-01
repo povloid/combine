@@ -5,7 +5,7 @@ import java.io.IOException;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
-import org.springframework.transaction.annotation.Transactional;
+
 
 public abstract class ABaseTreeDialog<T> extends ABaseDialog<T> {
 
@@ -17,7 +17,6 @@ public abstract class ABaseTreeDialog<T> extends ABaseDialog<T> {
 	 * Before add mode any actions
 	 */
 	@Override
-	@Transactional
 	protected void afterAddMakeMode() throws Exception {
 		if (getParent(edited) == null && parentSKey != null
 				&& parentSKey.trim().length() > 0) {
