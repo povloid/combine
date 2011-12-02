@@ -122,6 +122,8 @@ public abstract class ABaseDialog<T extends Object> {
 					.redirect(retUrl);
 	}
 
+	private T lastCreatedObject;
+
 	/**
 	 * Prepere mode actions
 	 * 
@@ -129,28 +131,32 @@ public abstract class ABaseDialog<T extends Object> {
 	 */
 	protected void makeMode() throws Exception {
 
-		if (mode != null) {
-			if (mode.equals(MODE_ADD)) {
-				beforeAddMakeMode();
-				this.edited = createNewEditedObject();
-				prepareAdd();
-				afterAddMakeMode();
-			} else if (mode.equals(MODE_EDIT)) {
-				beforeEditMakeMode();
-				this.edited = findEditedObject(this.sKey);
-				prepareEdit();
-				afterEditMakeMode();
-			} else if (mode.equals(MODE_DEL)) {
-				beforeDelMakeMode();
-				this.edited = findEditedObject(this.sKey);
-				prepareDel();
-				afterDelMakeMode();
-			} else {
-				throw new Exception("Error: Parametr mode is incorrect!");
-			}
-		} else {
+		if (mode == null) {
 			throw new Exception("Error: Parametr mode is null!");
 		}
+
+		if (mode.equals(MODE_ADD)) {
+			beforeAddMakeMode();
+			if (this.lastCreatedObject == null
+					|| this.lastCreatedObject != this.edited)
+				this.edited = createNewEditedObject();
+
+			this.lastCreatedObject = this.edited;
+			prepareAdd();
+			afterAddMakeMode();
+		} else if ((sKey != null) && mode.equals(MODE_EDIT)) {
+			beforeEditMakeMode();
+			this.edited = findEditedObject(this.sKey);
+			prepareEdit();
+			afterEditMakeMode();
+		} else if (sKey != null && mode.equals(MODE_DEL)) {
+			beforeDelMakeMode();
+			this.edited = findEditedObject(this.sKey);
+			prepareDel();
+			afterDelMakeMode();
+		}
+
+		sKey = null;
 
 	}
 
@@ -180,9 +186,8 @@ public abstract class ABaseDialog<T extends Object> {
 	protected void beforeAddMakeMode() throws Exception {
 
 	}
-	
+
 	// -------
-	
 
 	/**
 	 * after add mode any actions
@@ -214,6 +219,7 @@ public abstract class ABaseDialog<T extends Object> {
 	public String cancel() {
 		String url = "";
 		try {
+			lastCreatedObject = null;
 			redirect();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -253,7 +259,7 @@ public abstract class ABaseDialog<T extends Object> {
 	protected abstract void prepareAddImpl() throws Exception;
 
 	// ---------------------------------------------------
-	
+
 	/**
 	 * Apply action, return the current page
 	 * 
@@ -266,7 +272,8 @@ public abstract class ABaseDialog<T extends Object> {
 
 		try {
 			aApplyImpl();
-
+			lastCreatedObject = null;
+			mode = MODE_EDIT;
 		} catch (Exception e) {
 			e.printStackTrace();
 			FacesContext.getCurrentInstance().addMessage(
@@ -277,19 +284,17 @@ public abstract class ABaseDialog<T extends Object> {
 
 		return null;
 	}
-	
-	
+
 	/**
 	 * Применить
+	 * 
 	 * @throws Exception
 	 */
-	protected void aApplyImpl() throws Exception{
-		
+	protected void aApplyImpl() throws Exception {
+
 	}
-	
-	
+
 	// ---------------------------------------------------
-	
 
 	/**
 	 * Action Conform add and return
@@ -304,6 +309,7 @@ public abstract class ABaseDialog<T extends Object> {
 		String url = "";
 		try {
 			url = confirmAddImpl();
+			lastCreatedObject = null;
 			afterAnyConfirmAction();
 			redirect();
 
@@ -448,17 +454,17 @@ public abstract class ABaseDialog<T extends Object> {
 	 * @throws Exception
 	 */
 	protected abstract String confirmDelImpl() throws Exception;
-	
+
 	// --------------------------------------------------------------
-	
+
 	/**
 	 * After any confirmed action
+	 * 
 	 * @throws Exception
 	 */
-	protected void afterAnyConfirmAction() throws Exception{
-		
+	protected void afterAnyConfirmAction() throws Exception {
+
 	}
-	
 
 	// -----------------------------------------------------------------------------------------------------------------
 	// getters and setters
