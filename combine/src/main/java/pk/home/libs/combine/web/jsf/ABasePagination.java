@@ -12,24 +12,26 @@ import javax.faces.context.FacesContext;
  * @author povloid
  * 
  */
-public abstract class ABasePagination {
+public abstract class ABasePagination<T extends Object> {
 
-	protected String ppage; // страница
-	protected String prows; // число записей на странице
+	private String ppage; // страница
+	private String prows; // число записей на странице
 
-	protected int page = 1;
-	protected int rows = 10;
-	protected int pages;
+	private int page = 1;
+	private int rows = 10;
+	private int pages;
 
 	// calculate bean params
-	protected int allPagesCount;
-	protected long allRowsCount;
+	private int allPagesCount;
+	private long allRowsCount;
 
 	public static final int maxOPButtons = 10;
-	protected List<OrderingPaginationButton> oPButtons;
+	private List<OrderingPaginationButton> oPButtons;
 
-	//-------------------------------------------------------------------------------------------------
-	
+	private List<T> result = new ArrayList<T>();
+
+	// -------------------------------------------------------------------------------------------------
+
 	private void parseParams() throws Exception {
 		page = ppage != null && ppage.length() > 0 ? Integer.parseInt(ppage
 				.trim()) : page;
@@ -39,8 +41,7 @@ public abstract class ABasePagination {
 				.trim()) : rows;
 		prows = null;
 	}
-	
-	
+
 	// calculate pages
 	// ------------------------------------------------------------------------------------------------
 	/**
@@ -51,7 +52,7 @@ public abstract class ABasePagination {
 			allPagesCount = 0;
 			oPButtons = null;
 		} else {
-			
+
 			// Коррекция должна быть после всех сортировок и фильтраций
 			allPagesCount = (int) (allRowsCount / rows);
 			allPagesCount = allRowsCount > 0 && (allRowsCount % rows) > 0 ? allPagesCount + 1
@@ -74,6 +75,18 @@ public abstract class ABasePagination {
 		}
 	}
 
+	/**
+	 * get started position
+	 * @return
+	 */
+	protected int getFirstResult(){
+		return  (page - 1) * rows;
+	}
+	
+	protected int getMaxResults(){
+		return rows;
+	}
+	
 	// ----------------------------------------------------------------------------------------------------------------
 	// INIT
 
@@ -83,10 +96,20 @@ public abstract class ABasePagination {
 	public void init() {
 		try {
 			parseParams();
-			
+
 			aInit();
-	
+
+			result.clear();
+			allRowsCount = 0;
+			AResult<T> ar = executeQuery();
+			if (ar != null && ar.allRowsCount > 0 
+					&& ar.result != null && ar.result.size() > 0) {
+				allRowsCount = ar.allRowsCount;
+				result = ar.result;
+			}
+
 			calculatePagination();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			FacesContext.getCurrentInstance().addMessage(
@@ -102,6 +125,41 @@ public abstract class ABasePagination {
 	 * @throws Exception
 	 */
 	protected abstract void aInit() throws Exception;
+
+	/**
+	 * iside returning result class
+	 * 
+	 * @author povloid
+	 * 
+	 */
+	protected class AResult<E> {
+		private int allRowsCount;
+		private List<E> result;
+
+		public AResult(int allRowsCount, List<E> result) {
+			super();
+			this.allRowsCount = allRowsCount;
+			this.result = result;
+		}
+
+		public int getAllRowsCount() {
+			return allRowsCount;
+		}
+
+		public void setAllRowsCount(int allRowsCount) {
+			this.allRowsCount = allRowsCount;
+		}
+
+		public List<E> getResult() {
+			return result;
+		}
+
+		public void setResult(List<E> result) {
+			this.result = result;
+		}
+	}
+
+	protected abstract AResult<T> executeQuery() throws Exception;
 
 	// get's and set's
 	// -------------------------------------------------------------------------------------------------
@@ -167,6 +225,14 @@ public abstract class ABasePagination {
 
 	public void setoPButtons(List<OrderingPaginationButton> oPButtons) {
 		this.oPButtons = oPButtons;
+	}
+
+	public List<T> getResult() {
+		return result;
+	}
+
+	public void setResult(List<T> result) {
+		this.result = result;
 	}
 
 }
