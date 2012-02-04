@@ -28,12 +28,25 @@ public abstract class ABasePagination {
 	public static final int maxOPButtons = 10;
 	protected List<OrderingPaginationButton> oPButtons;
 
+	//-------------------------------------------------------------------------------------------------
+	
+	private void parseParams() throws Exception {
+		page = ppage != null && ppage.length() > 0 ? Integer.parseInt(ppage
+				.trim()) : page;
+		ppage = null;
+
+		rows = prows != null && prows.length() > 0 ? Integer.parseInt(prows
+				.trim()) : rows;
+		prows = null;
+	}
+	
+	
 	// calculate pages
 	// ------------------------------------------------------------------------------------------------
 	/**
 	 * Calculate beans params
 	 */
-	protected void calculatePagination() {
+	private void calculatePagination() {
 		if (rows == 0) {
 			allPagesCount = 0;
 			oPButtons = null;
@@ -69,6 +82,8 @@ public abstract class ABasePagination {
 	 */
 	public void init() {
 		try {
+			parseParams();
+			
 			aInit();
 	
 			calculatePagination();
