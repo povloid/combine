@@ -115,7 +115,7 @@ public abstract class ABaseDAO<T extends Object> {
 
 		if (!all) {
 			q.setMaxResults(maxResults);
-			System.out.println(">>>firstResult = " + firstResult);
+			////System.out.println(">>>firstResult = " + firstResult);
 			q.setFirstResult(firstResult >= 0? firstResult : 0);
 		}
 		return q.getResultList();
@@ -157,7 +157,7 @@ public abstract class ABaseDAO<T extends Object> {
 	 */
 	@Transactional(propagation = Propagation.REQUIRED)
 	public T persist(T o) throws Exception {
-		System.out.print(">>>PERSIST: " + o.toString());
+		////System.out.print(">>>PERSIST: " + o.toString());
 		getEntityManager().persist(o);
 		return o;
 	}

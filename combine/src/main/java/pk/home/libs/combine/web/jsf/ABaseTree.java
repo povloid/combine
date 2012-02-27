@@ -136,16 +136,16 @@ public abstract class ABaseTree<T extends Object> {
 		buffer.clear();
 		
 		for(T t: multiselected.keySet()){
-			System.out.println(">>>>>" + t + " is selected - " + multiselected.get(t).getClass());
+			////System.out.println(">>>>>" + t + " is selected - " + multiselected.get(t).getClass());
 			
 			Object val = multiselected.get(t);
 			Boolean bvalue = false;
 			
 			if(val instanceof String){
-				System.out.println(">>>>>value is String");
+				////System.out.println(">>>>>value is String");
 				bvalue = ((String) val).trim().toLowerCase().equals("true");
 			} else if (val instanceof Boolean){
-				System.out.println(">>>>>value is Boolean");
+				////System.out.println(">>>>>value is Boolean");
 				bvalue = (Boolean) val;
 			}
 			
