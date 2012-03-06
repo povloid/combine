@@ -1,13 +1,19 @@
 package pk.home.libs.combine.web.jsf;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
 
 
-public abstract class ABaseTreeDialog<T> extends ABaseDialog<T> {
+public abstract class ABaseTreeDialog<T> extends ABaseDialog<T> implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5101901909288161448L;
 
 	protected String parentSKey;
 

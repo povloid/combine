@@ -1,5 +1,6 @@
 package pk.home.libs.combine.web.jsf;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +19,12 @@ import javax.faces.context.FacesContext;
  * 
  * @param <T>
  */
-public abstract class ABaseTree<T extends Object> {
+public abstract class ABaseTree<T extends Object> implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6076682664021910035L;
 
 	// ----------------------------------------------------------------------------------------------------------------
 	// INIT

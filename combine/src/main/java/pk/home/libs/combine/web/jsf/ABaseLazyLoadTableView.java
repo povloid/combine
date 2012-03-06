@@ -1,5 +1,6 @@
 package pk.home.libs.combine.web.jsf;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
@@ -7,18 +8,22 @@ import javax.faces.context.FacesContext;
 
 import pk.home.libs.combine.dao.ABaseDAO.SortOrderType;
 
-
-
 /**
  * Only View class
  * 
  * @author povloid
  * 
  */
-public abstract class ABaseLazyLoadTableView<T extends Object> {
+public abstract class ABaseLazyLoadTableView<T extends Object> implements
+		Serializable {
 
 	// ----------------------------------------------------------------------------------------------------------------
 	// INIT
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7743553810675875365L;
 
 	/**
 	 * View initialisation
@@ -59,11 +64,10 @@ public abstract class ABaseLazyLoadTableView<T extends Object> {
 	// session bean params
 	protected Integer rows = 10;
 	protected Integer page = 1;
-	protected String csortOrder = "desc"; 
+	protected String csortOrder = "desc";
 	protected String csortField;
-	
-	
-	//selected bean parametr
+
+	// selected bean parametr
 	protected T selected;
 
 	// calculate bean params
@@ -247,7 +251,4 @@ public abstract class ABaseLazyLoadTableView<T extends Object> {
 		this.selected = selected;
 	}
 
-	
-	
-	
 }

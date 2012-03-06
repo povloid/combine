@@ -1,6 +1,7 @@
 package pk.home.libs.combine.web.jsf;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -10,7 +11,14 @@ import javax.faces.context.FacesContext;
  * 
  * @param <T>
  */
-public abstract class ABaseDialog<T extends Object> {
+public abstract class ABaseDialog<T extends Object>  implements Serializable{
+
+
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -17495380623375031L;
 
 	/**
 	 * Edited bean

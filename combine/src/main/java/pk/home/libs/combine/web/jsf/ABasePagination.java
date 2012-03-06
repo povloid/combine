@@ -1,5 +1,6 @@
 package pk.home.libs.combine.web.jsf;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,12 @@ import javax.faces.context.FacesContext;
  * @author povloid
  * 
  */
-public abstract class ABasePagination<T extends Object> {
+public abstract class ABasePagination<T extends Object> implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4266659681520981975L;
 
 	private String ppage; // страница
 	private String prows; // число записей на странице
@@ -77,16 +83,17 @@ public abstract class ABasePagination<T extends Object> {
 
 	/**
 	 * get started position
+	 * 
 	 * @return
 	 */
-	protected int getFirstResult(){
-		return  (page - 1) * rows;
+	protected int getFirstResult() {
+		return (page - 1) * rows;
 	}
-	
-	protected int getMaxResults(){
+
+	protected int getMaxResults() {
 		return rows;
 	}
-	
+
 	// ----------------------------------------------------------------------------------------------------------------
 	// INIT
 
@@ -102,14 +109,14 @@ public abstract class ABasePagination<T extends Object> {
 			result.clear();
 			allRowsCount = 0;
 			AResult<T> ar = executeQuery();
-			if (ar != null && ar.allRowsCount > 0 
-					&& ar.result != null && ar.result.size() > 0) {
+			if (ar != null && ar.allRowsCount > 0 && ar.result != null
+					&& ar.result.size() > 0) {
 				allRowsCount = ar.allRowsCount;
 				result = ar.result;
 			}
 
 			calculatePagination();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			FacesContext.getCurrentInstance().addMessage(

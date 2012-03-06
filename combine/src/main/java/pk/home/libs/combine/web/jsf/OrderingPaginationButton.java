@@ -1,7 +1,15 @@
 package pk.home.libs.combine.web.jsf;
 
-public class OrderingPaginationButton {
+import java.io.Serializable;
 
+public class OrderingPaginationButton implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4157145121958884481L;
+	
+	
 	private String caption;
 	private String ppage;
 
