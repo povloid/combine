@@ -166,6 +166,11 @@ public abstract class AWFControl<T extends Object, K extends Object> implements
 			return ERROR;
 		}
 
+		FacesContext.getCurrentInstance().addMessage(
+				null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Ok: ",
+						"Запись успешно удалена"));
+
 		return DEL_COMPLITE;
 	}
 
