@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import pk.home.libs.combine.dao.ABaseDAO;
 import pk.home.libs.combine.dao.ABaseDAO.SortOrderType;
 
-
 public abstract class ABaseService<T extends Object> {
 
 	public abstract ABaseDAO<T> getAbstractBasicDAO();
@@ -19,7 +18,7 @@ public abstract class ABaseService<T extends Object> {
 		return o;
 	}
 
-	@Transactional(propagation = Propagation.REQUIRED,readOnly=true)
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public T refresh(T o) throws Exception {
 		getAbstractBasicDAO().refresh(o);
 		return o;
@@ -32,40 +31,50 @@ public abstract class ABaseService<T extends Object> {
 
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void remove(T object) throws Exception {
-		getAbstractBasicDAO().remove(getAbstractBasicDAO().getManagedEntity(object));
+		getAbstractBasicDAO().remove(
+				getAbstractBasicDAO().getManagedEntity(object));
 	}
 
-	@Transactional(propagation = Propagation.REQUIRED,readOnly=true)
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public T find(Object key) throws Exception {
 		return getAbstractBasicDAO().find(key);
 	}
 
-	@Transactional(propagation = Propagation.REQUIRED,readOnly=true)
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<T> getAllEntities() throws Exception {
 		return getAbstractBasicDAO().getAllEntities();
 	}
 
-	@Transactional(propagation = Propagation.REQUIRED,readOnly=true)
-	public List<T> getAllEntities(SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder) throws Exception {
-		return getAbstractBasicDAO().getAllEntities(orderByAttribute, sortOrder);
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public List<T> getAllEntities(SingularAttribute<T, ?> orderByAttribute,
+			SortOrderType sortOrder) throws Exception {
+		return getAbstractBasicDAO()
+				.getAllEntities(orderByAttribute, sortOrder);
 	}
-	
-	
-	@Transactional(propagation = Propagation.REQUIRED,readOnly=true)
-	public List<T> getAllEntities( int firstResult, int maxResults)
+
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public List<T> getAllEntities(int firstResult, int maxResults)
 			throws Exception {
-		return getAbstractBasicDAO().getAllEntities( firstResult, maxResults);
+		return getAbstractBasicDAO().getAllEntities(firstResult, maxResults);
 	}
-	
-	@Transactional(propagation = Propagation.REQUIRED,readOnly=true)
-	public List<T> getAllEntities(int firstResult, int maxResults,   
+
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public List<T> getAllEntities(int firstResult, int maxResults,
 			SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder)
 			throws Exception {
-		return getAbstractBasicDAO().getAllEntities(false, firstResult, maxResults, orderByAttribute, sortOrder);
+		return getAbstractBasicDAO().getAllEntities(false, firstResult,
+				maxResults, orderByAttribute, sortOrder);
 	}
-	
 
-	@Transactional(propagation = Propagation.REQUIRED,readOnly=true)
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public List<T> getAllEntities(boolean all, int firstResult, int maxResults,
+			SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder)
+			throws Exception {
+		return getAbstractBasicDAO().getAllEntities(all, firstResult,
+				maxResults, orderByAttribute, sortOrder);
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public long count() throws Exception {
 		return getAbstractBasicDAO().count();
 	}
