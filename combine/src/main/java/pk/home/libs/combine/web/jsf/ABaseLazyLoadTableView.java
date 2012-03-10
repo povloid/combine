@@ -112,7 +112,7 @@ public abstract class ABaseLazyLoadTableView<T extends Object> implements
 			// строк на страницу
 			page = page > allPagesCount ? allPagesCount : page;
 
-			// далее вормирование набора кнопок для пэйджера
+			// далее формирование набора кнопок для пэйджера
 			int part = maxOPButtons / 2;
 			int ibegin = page - part < 1 ? 1 : page - part;
 			int iend = page + part > allPagesCount ? allPagesCount : page
