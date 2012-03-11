@@ -123,6 +123,8 @@ public abstract class ABaseLazyLoadTableView<T extends Object> implements
 				oPButtons.add(new OrderingPaginationButton(i + "", i + ""));
 			}
 		}
+		
+		page = page == 0 && allPagesCount == 1 ? 1 : page;
 	}
 
 	/**
