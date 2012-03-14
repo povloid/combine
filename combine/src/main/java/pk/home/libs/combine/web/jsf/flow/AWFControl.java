@@ -44,6 +44,32 @@ public abstract class AWFControl<T extends Object, K extends Object> implements
 	public abstract T newEdited() throws Exception;
 
 	/**
+	 * initialize lazy function
+	 */
+	public void init() {
+		try {
+			init0();
+		} catch (Exception e) {
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: ", e
+							.getMessage()));
+		}
+	}
+	
+	
+	/**
+	 * initialize
+	 * @throws Exception
+	 */
+	protected void init0() throws Exception{
+		
+	}
+	
+	
+	
+	/**
 	 * Find bean for name
 	 * 
 	 * @param name
