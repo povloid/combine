@@ -62,6 +62,17 @@ public class AWFWizart implements Serializable {
 	public String close() {
 		try {
 			closeImpl();
+		} catch (javax.persistence.OptimisticLockException e) {
+			e.printStackTrace();
+			FacesContext
+					.getCurrentInstance()
+					.addMessage(
+							null,
+							new FacesMessage(FacesMessage.SEVERITY_ERROR,
+									"Error: ",
+									"Версия устарела, кто-то уже обновил данную запись. Закройте диалог."));
+			return "error";
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			FacesContext.getCurrentInstance().addMessage(
@@ -91,6 +102,17 @@ public class AWFWizart implements Serializable {
 	public String back() {
 		try {
 			backImpl();
+		} catch (javax.persistence.OptimisticLockException e) {
+			e.printStackTrace();
+			FacesContext
+					.getCurrentInstance()
+					.addMessage(
+							null,
+							new FacesMessage(FacesMessage.SEVERITY_ERROR,
+									"Error: ",
+									"Версия устарела, кто-то уже обновил данную запись. Закройте диалог."));
+			return "error";
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			FacesContext.getCurrentInstance().addMessage(
@@ -120,6 +142,17 @@ public class AWFWizart implements Serializable {
 	public String next() {
 		try {
 			nextImpl();
+		} catch (javax.persistence.OptimisticLockException e) {
+			e.printStackTrace();
+			FacesContext
+					.getCurrentInstance()
+					.addMessage(
+							null,
+							new FacesMessage(FacesMessage.SEVERITY_ERROR,
+									"Error: ",
+									"Версия устарела, кто-то уже обновил данную запись. Закройте диалог."));
+			return "error";
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			FacesContext.getCurrentInstance().addMessage(

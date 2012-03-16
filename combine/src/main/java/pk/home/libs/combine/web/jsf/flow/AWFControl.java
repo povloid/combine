@@ -57,18 +57,16 @@ public abstract class AWFControl<T extends Object, K extends Object> implements
 							.getMessage()));
 		}
 	}
-	
-	
+
 	/**
 	 * initialize
+	 * 
 	 * @throws Exception
 	 */
-	protected void init0() throws Exception{
-		
+	protected void init0() throws Exception {
+
 	}
-	
-	
-	
+
 	/**
 	 * Find bean for name
 	 * 
@@ -96,6 +94,17 @@ public abstract class AWFControl<T extends Object, K extends Object> implements
 		try {
 
 			confirmAddImpl();
+
+		} catch (javax.persistence.OptimisticLockException e) {
+			e.printStackTrace();
+			FacesContext
+					.getCurrentInstance()
+					.addMessage(
+							null,
+							new FacesMessage(FacesMessage.SEVERITY_ERROR,
+									"Error: ",
+									"Версия устарела, кто-то уже обновил данную запись. Закройте диалог."));
+			return ERROR;
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -132,6 +141,17 @@ public abstract class AWFControl<T extends Object, K extends Object> implements
 	public String confirmEdit() {
 		try {
 			confirmEditImpl();
+		} catch (javax.persistence.OptimisticLockException e) {
+			e.printStackTrace();
+			FacesContext
+					.getCurrentInstance()
+					.addMessage(
+							null,
+							new FacesMessage(FacesMessage.SEVERITY_ERROR,
+									"Error: ",
+									"Версия устарела, кто-то уже обновил данную запись. Закройте диалог."));
+			return ERROR;
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			FacesContext.getCurrentInstance().addMessage(
@@ -183,6 +203,17 @@ public abstract class AWFControl<T extends Object, K extends Object> implements
 	public String confirmDel() throws Exception {
 		try {
 			confirmDelImpl();
+		} catch (javax.persistence.OptimisticLockException e) {
+			e.printStackTrace();
+			FacesContext
+					.getCurrentInstance()
+					.addMessage(
+							null,
+							new FacesMessage(FacesMessage.SEVERITY_ERROR,
+									"Error: ",
+									"Версия устарела, кто-то уже обновил данную запись. Закройте диалог."));
+			return ERROR;
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			FacesContext.getCurrentInstance().addMessage(

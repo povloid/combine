@@ -11,9 +11,7 @@ import javax.faces.context.FacesContext;
  * 
  * @param <T>
  */
-public abstract class ABaseDialog<T extends Object>  implements Serializable{
-
-
+public abstract class ABaseDialog<T extends Object> implements Serializable {
 
 	/**
 	 * 
@@ -321,6 +319,16 @@ public abstract class ABaseDialog<T extends Object>  implements Serializable{
 			afterAnyConfirmAction();
 			redirect();
 
+		} catch (javax.persistence.OptimisticLockException e) {
+			e.printStackTrace();
+			FacesContext
+					.getCurrentInstance()
+					.addMessage(
+							null,
+							new FacesMessage(FacesMessage.SEVERITY_ERROR,
+									"Error: ",
+									"Версия устарела, кто-то уже обновил данную запись. Закройте диалог."));
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			FacesContext.getCurrentInstance().addMessage(
@@ -384,6 +392,16 @@ public abstract class ABaseDialog<T extends Object>  implements Serializable{
 
 			redirect();
 
+		} catch (javax.persistence.OptimisticLockException e) {
+			e.printStackTrace();
+			FacesContext
+					.getCurrentInstance()
+					.addMessage(
+							null,
+							new FacesMessage(FacesMessage.SEVERITY_ERROR,
+									"Error: ",
+									"Версия устарела, кто-то уже обновил данную запись. Закройте диалог."));
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			FacesContext.getCurrentInstance().addMessage(
@@ -443,6 +461,16 @@ public abstract class ABaseDialog<T extends Object>  implements Serializable{
 			url = confirmDelImpl();
 			afterAnyConfirmAction();
 			redirect();
+
+		} catch (javax.persistence.OptimisticLockException e) {
+			e.printStackTrace();
+			FacesContext
+					.getCurrentInstance()
+					.addMessage(
+							null,
+							new FacesMessage(FacesMessage.SEVERITY_ERROR,
+									"Error: ",
+									"Версия устарела, кто-то уже обновил данную запись. Закройте диалог."));
 
 		} catch (Exception e) {
 			e.printStackTrace();
