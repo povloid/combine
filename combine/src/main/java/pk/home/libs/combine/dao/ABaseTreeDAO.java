@@ -2,8 +2,6 @@ package pk.home.libs.combine.dao;
 
 import java.util.List;
 
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Path;
@@ -12,13 +10,14 @@ import javax.persistence.metamodel.SingularAttribute;
 
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import pk.home.libs.combine.basic.TreeFunctional;
 
 public abstract class ABaseTreeDAO<T extends Object> extends ABaseDAO<T>
 		implements TreeFunctional<T> {
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED,readOnly=true)
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<T> getChildrens(T parent, SingularAttribute<T, ?> parent_)
 			throws Exception {
 		return getChildrens(parent, parent_, true, -1, -1, null,
@@ -26,7 +25,7 @@ public abstract class ABaseTreeDAO<T extends Object> extends ABaseDAO<T>
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED,readOnly=true)
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<T> getChildrens(T parent, SingularAttribute<T, ?> parent_,
 			SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder)
 			throws Exception {
@@ -35,7 +34,7 @@ public abstract class ABaseTreeDAO<T extends Object> extends ABaseDAO<T>
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED,readOnly=true)
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<T> getChildrens(T parent, SingularAttribute<T, ?> parent_,
 			int firstResult, int maxResults) throws Exception {
 		return getChildrens(parent, parent_, false, firstResult, maxResults,
@@ -43,7 +42,7 @@ public abstract class ABaseTreeDAO<T extends Object> extends ABaseDAO<T>
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED,readOnly=true)
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<T> getChildrens(T parent, SingularAttribute<T, ?> parent_,
 			int firstResult, int maxResults,
 			SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder)
@@ -53,7 +52,7 @@ public abstract class ABaseTreeDAO<T extends Object> extends ABaseDAO<T>
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED,readOnly=true)
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<T> getChildrens(T parent, SingularAttribute<T, ?> parent_,
 			boolean all, int firstResult, int maxResults,
 			SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder)
@@ -65,23 +64,6 @@ public abstract class ABaseTreeDAO<T extends Object> extends ABaseDAO<T>
 		CriteriaQuery<T> cq = cb.createQuery(getTClass());
 		Root<T> t = cq.from(getTClass());
 
-		// order by ------------------------------------------
-		if (orderByAttribute != null) {
-			switch (sortOrder) {
-			case DESC:
-				cq.orderBy(cb.desc(t.get(orderByAttribute)));
-				break;
-			case ASC:
-				cq.orderBy(cb.asc(t.get(orderByAttribute)));
-				break;
-
-			default:
-				cq.orderBy(cb.asc(t.get(orderByAttribute)));
-				break;
-			}
-
-		}
-
 		// parent param ---------------------------------------
 
 		Path<?> parentParam = t.get(parent_);
@@ -92,21 +74,14 @@ public abstract class ABaseTreeDAO<T extends Object> extends ABaseDAO<T>
 			cq.where(cb.equal(parentParam, parent));
 		}
 
-		// create query
-		TypedQuery<T> q = getEntityManager().createQuery(cq);
-
-		if (!all) {
-			q.setMaxResults(maxResults);
-			System.out.println(">>>firstResult = " + firstResult);
-			q.setFirstResult(firstResult >= 0 ? firstResult : 0);
-		}
-		return q.getResultList();
+		return getAllEntities(firstResult, maxResults, orderByAttribute,
+				sortOrder, cb, cq, t);
 	}
 
 	// ----------------------------------------------------------------------------------------------------------------
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED,readOnly=true)
-	public long  getChildrensCount(T parent, SingularAttribute<T, ?> parent_)
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public long getChildrensCount(T parent, SingularAttribute<T, ?> parent_)
 			throws Exception {
 
 		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder(); // Только
@@ -122,8 +97,8 @@ public abstract class ABaseTreeDAO<T extends Object> extends ABaseDAO<T>
 		}
 
 		cq.select(getEntityManager().getCriteriaBuilder().count(rt));
-		Query q = getEntityManager().createQuery(cq);
-		return ((Long) q.getSingleResult()).longValue();
+
+		return ((Long) getSinleResult(cq)).longValue();
 	}
 
 }
