@@ -1,33 +1,47 @@
 package pk.home.libs.combine.web.jsf.flow.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
+
 import javax.faces.FacesException;
 import javax.faces.model.DataModel;
 import javax.faces.model.DataModelEvent;
 import javax.faces.model.DataModelListener;
+import javax.faces.model.ListDataModel;
 
-import org.primefaces.model.SelectableDataModel;
-
-/**
- * SelectableDataModel for spring wf --> serializeble !
- * 
- * 
- * @author povloid
- * 
- * @param <T>
- */
-public abstract class WFDataModel<T> extends DataModel<T> implements
-		SelectableDataModel<T>, Serializable {
+public class WFListDataModel<E> extends DataModel<E> implements Serializable {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 6L;
+	private static final long serialVersionUID = 5939374256884745826L;
 
-	public WFDataModel(List<T> list) {
-		this.list = new ArrayList<T>(list);
+	// ------------------------------------------------------------ Constructors
+
+	/**
+	 * <p>
+	 * Construct a new {@link ListDataModel} with no specified wrapped data.
+	 * </p>
+	 */
+	public WFListDataModel() {
+
+		this(null);
+
+	}
+
+	/**
+	 * <p>
+	 * Construct a new {@link ListDataModel} wrapping the specified list.
+	 * </p>
+	 * 
+	 * @param list
+	 *            List to be wrapped (if any)
+	 */
+	public WFListDataModel(List<E> list) {
+
+		super();
+		setWrappedData(list);
+
 	}
 
 	// ------------------------------------------------------ Instance Variables
@@ -36,7 +50,7 @@ public abstract class WFDataModel<T> extends DataModel<T> implements
 	private int index = -1;
 
 	// The list we are wrapping
-	private List<T> list;
+	private List<E> list;
 
 	// -------------------------------------------------------------- Properties
 
@@ -94,14 +108,14 @@ public abstract class WFDataModel<T> extends DataModel<T> implements
 	 *             if now row data is available at the currently specified row
 	 *             index
 	 */
-	public T getRowData() {
+	public E getRowData() {
 
 		if (list == null) {
 			return (null);
 		} else if (!isRowAvailable()) {
 			throw new NoRowAvailableException();
 		} else {
-			return ((T) list.get(index));
+			return ((E) list.get(index));
 		}
 
 	}
@@ -167,7 +181,7 @@ public abstract class WFDataModel<T> extends DataModel<T> implements
 			list = null;
 			setRowIndex(-1);
 		} else {
-			list = (List<T>) data;
+			list = (List<E>) data;
 			index = -1;
 			setRowIndex(0);
 		}
