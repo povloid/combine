@@ -165,6 +165,13 @@
 			<version>2.0.6</version>
 		</dependency>
 		
+		<!-- PrimeFaces component library -->
+		<dependency>
+			<groupId>org.primefaces</groupId>
+			<artifactId>primefaces</artifactId>
+			<version>3.2</version>
+		</dependency>
+		
 		
 		
 		<dependency>
@@ -186,7 +193,7 @@
 		<repository>
 			<id>prime-repo</id>
 			<name>Prime Technology Maven Repository</name>
-			<url>http://repository.prime.com.tr</url>
+			<url>http://repository.primefaces.org</url>
 			<layout>default</layout>
 		</repository>
 	</repositories>
