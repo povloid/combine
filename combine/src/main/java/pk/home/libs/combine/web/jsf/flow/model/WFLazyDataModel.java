@@ -10,10 +10,22 @@ import org.primefaces.model.SortOrder;
 public abstract class WFLazyDataModel<T> extends LazyDataModel<T> implements
 		Serializable {
 
+	
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -3468218369857397831L;
+	
+	
+	public abstract T getRowData(String rowKey);
+
+    public abstract Object getRowKey(T object);
+	
+	@SuppressWarnings("unchecked")
+	protected List<T> getDataList() {
+		return (List<T>) getWrappedData();
+	}
 
 	@Override
 	public List<T> load(int first, int pageSize, String sortField,
