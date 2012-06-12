@@ -147,6 +147,13 @@ public abstract class ABaseDAO<T extends Object> {
 		return ((Long) q.getSingleResult()).longValue();
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public long count(Root<T> rt, CriteriaQuery<Object> cq) throws Exception {
+		cq.select(getEntityManager().getCriteriaBuilder().count(rt));
+		Query q = getEntityManager().createQuery(cq);
+		return ((Long) q.getSingleResult()).longValue();
+	}
+
 	// -------------------------------------------------------------------------------------------------------------
 
 	/**

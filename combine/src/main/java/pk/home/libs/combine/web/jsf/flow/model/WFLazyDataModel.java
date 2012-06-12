@@ -10,18 +10,15 @@ import org.primefaces.model.SortOrder;
 public abstract class WFLazyDataModel<T> extends LazyDataModel<T> implements
 		Serializable {
 
-	
-	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -3468218369857397831L;
-	
-	
+
 	public abstract T getRowData(String rowKey);
 
-    public abstract Object getRowKey(T object);
-	
+	public abstract Object getRowKey(T object);
+
 	@SuppressWarnings("unchecked")
 	protected List<T> getDataList() {
 		return (List<T>) getWrappedData();
@@ -34,7 +31,7 @@ public abstract class WFLazyDataModel<T> extends LazyDataModel<T> implements
 			// rowCount
 			int dataSize;
 
-			dataSize = count();
+			dataSize = count(filters);
 
 			this.setRowCount(dataSize);
 
@@ -65,7 +62,7 @@ public abstract class WFLazyDataModel<T> extends LazyDataModel<T> implements
 	 * @return
 	 * @throws Exception
 	 */
-	protected abstract int count() throws Exception;
+	protected abstract int count(Map<String, String> filters) throws Exception;
 
 	/**
 	 * Загрузить порцию записей
