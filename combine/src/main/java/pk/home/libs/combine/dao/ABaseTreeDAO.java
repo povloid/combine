@@ -74,7 +74,7 @@ public abstract class ABaseTreeDAO<T extends Object> extends ABaseDAO<T>
 			cq.where(cb.equal(parentParam, parent));
 		}
 
-		return getAllEntities(firstResult, maxResults, orderByAttribute,
+		return getAllEntities(all, firstResult, maxResults, orderByAttribute,
 				sortOrder, cb, cq, t);
 	}
 
