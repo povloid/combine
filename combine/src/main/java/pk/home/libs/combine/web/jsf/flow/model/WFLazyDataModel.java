@@ -78,10 +78,10 @@ public abstract class WFLazyDataModel<T> extends LazyDataModel<T> implements
 	protected abstract List<T> aload(int first, int pageSize, String sortField,
 			SortOrder sortOrder, Map<String, String> filters) throws Exception;
 
-	@Override
-	public void setRowIndex(int rowIndex) {
-		super.setRowIndex(rowIndex == 0 ? -1 : rowIndex);
-	}
+	//@Override
+	//public void setRowIndex(int rowIndex) {
+	//	super.setRowIndex(rowIndex == 0 ? -1 : rowIndex);
+	//}
 	
 	
 	
