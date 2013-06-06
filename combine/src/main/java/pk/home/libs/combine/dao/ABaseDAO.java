@@ -165,7 +165,7 @@ public abstract class ABaseDAO<T extends Object> {
 	 */
 	@Transactional(propagation = Propagation.REQUIRED)
 	public T persist(T o) throws Exception {
-		// //System.out.print(">>>PERSIST: " + o.toString());
+		// //LOG.debug(">>>PERSIST: " + o.toString());
 		getEntityManager().persist(o);
 		return o;
 	}
