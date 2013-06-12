@@ -68,39 +68,6 @@ public abstract class ABaseTreeService<T extends Object> extends
 		}
 	}
 
-	// ----------------------------------------------------------------------------------------------------------------
-
-	// @Override
-	// @Transactional
-	// public List<T> getChildrens(T parent) throws Exception {
-	// return getChildrens(parent, true, -1, -1, null, SortOrderType.ASC);
-	// }
-	//
-	// @Override
-	// @Transactional
-	// public List<T> getChildrens(T parent,
-	// SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder)
-	// throws Exception {
-	// return getChildrens(parent, true, -1, -1, orderByAttribute, sortOrder);
-	// }
-	//
-	// @Override
-	// @Transactional
-	// public List<T> getChildrens(T parent, int firstResult, int maxResults)
-	// throws Exception {
-	// return getChildrens(parent, false, firstResult, maxResults, null,
-	// SortOrderType.ASC);
-	// }
-	//
-	// @Override
-	// @Transactional
-	// public List<T> getChildrens(T parent, boolean all, int firstResult,
-	// int maxResults, SingularAttribute<T, ?> orderByAttribute,
-	// SortOrderType sortOrder) throws Exception {
-	// return getAbstractBasicTreeDAO().getChildrens(parent, all, firstResult,
-	// maxResults, orderByAttribute, sortOrder);
-	// }
-
 	/* (non-Javadoc)
 	 * @see pk.home.libs.combine.basic.TreeFunctional#getChildrens(java.lang.Object, javax.persistence.metamodel.SingularAttribute)
 	 */
