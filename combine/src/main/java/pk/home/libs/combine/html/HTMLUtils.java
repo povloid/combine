@@ -3,10 +3,20 @@ package pk.home.libs.combine.html;
 import org.htmlcleaner.CleanerProperties;
 import org.htmlcleaner.HtmlCleaner;
 
+/**
+ * The Class HTMLUtils.
+ * 
+ * Class HTMLUtils
+ *
+ * @author Kopychenko Pavel
+ *
+ * @date Jun 12, 2012
+ *
+ */
 public final class HTMLUtils {
 
 	/**
-	 * Отчистить текст от html разметки
+	 * Cleaning text
 	 * 
 	 * @param html
 	 * @return

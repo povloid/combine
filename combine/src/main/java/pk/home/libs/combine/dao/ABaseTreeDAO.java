@@ -13,9 +13,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 import pk.home.libs.combine.basic.TreeFunctional;
 
+/**
+ * The Class ABaseTreeDAO.
+ * 
+ * @param <T> the generic type
+ * @author Kopychenko Pavel
+ * @date Jun 12, 2012
+ */
 public abstract class ABaseTreeDAO<T extends Object> extends ABaseDAO<T>
 		implements TreeFunctional<T> {
 
+	/* (non-Javadoc)
+	 * @see pk.home.libs.combine.basic.TreeFunctional#getChildrens(java.lang.Object, javax.persistence.metamodel.SingularAttribute)
+	 */
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<T> getChildrens(T parent, SingularAttribute<T, ?> parent_)
@@ -24,6 +34,9 @@ public abstract class ABaseTreeDAO<T extends Object> extends ABaseDAO<T>
 				SortOrderType.ASC);
 	}
 
+	/* (non-Javadoc)
+	 * @see pk.home.libs.combine.basic.TreeFunctional#getChildrens(java.lang.Object, javax.persistence.metamodel.SingularAttribute, javax.persistence.metamodel.SingularAttribute, pk.home.libs.combine.dao.ABaseDAO.SortOrderType)
+	 */
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<T> getChildrens(T parent, SingularAttribute<T, ?> parent_,
@@ -33,6 +46,9 @@ public abstract class ABaseTreeDAO<T extends Object> extends ABaseDAO<T>
 				sortOrder);
 	}
 
+	/* (non-Javadoc)
+	 * @see pk.home.libs.combine.basic.TreeFunctional#getChildrens(java.lang.Object, javax.persistence.metamodel.SingularAttribute, int, int)
+	 */
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<T> getChildrens(T parent, SingularAttribute<T, ?> parent_,
@@ -41,6 +57,9 @@ public abstract class ABaseTreeDAO<T extends Object> extends ABaseDAO<T>
 				null, SortOrderType.ASC);
 	}
 
+	/* (non-Javadoc)
+	 * @see pk.home.libs.combine.basic.TreeFunctional#getChildrens(java.lang.Object, javax.persistence.metamodel.SingularAttribute, int, int, javax.persistence.metamodel.SingularAttribute, pk.home.libs.combine.dao.ABaseDAO.SortOrderType)
+	 */
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<T> getChildrens(T parent, SingularAttribute<T, ?> parent_,
@@ -51,6 +70,9 @@ public abstract class ABaseTreeDAO<T extends Object> extends ABaseDAO<T>
 				orderByAttribute, sortOrder);
 	}
 
+	/* (non-Javadoc)
+	 * @see pk.home.libs.combine.basic.TreeFunctional#getChildrens(java.lang.Object, javax.persistence.metamodel.SingularAttribute, boolean, int, int, javax.persistence.metamodel.SingularAttribute, pk.home.libs.combine.dao.ABaseDAO.SortOrderType)
+	 */
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<T> getChildrens(T parent, SingularAttribute<T, ?> parent_,
@@ -58,9 +80,7 @@ public abstract class ABaseTreeDAO<T extends Object> extends ABaseDAO<T>
 			SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder)
 			throws Exception {
 
-		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder(); // Только
-																		// так
-																		// заработало
+		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder(); // !!!
 		CriteriaQuery<T> cq = cb.createQuery(getTClass());
 		Root<T> t = cq.from(getTClass());
 
@@ -79,6 +99,9 @@ public abstract class ABaseTreeDAO<T extends Object> extends ABaseDAO<T>
 	}
 
 	// ----------------------------------------------------------------------------------------------------------------
+	/* (non-Javadoc)
+	 * @see pk.home.libs.combine.basic.TreeFunctional#getChildrensCount(java.lang.Object, javax.persistence.metamodel.SingularAttribute)
+	 */
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public long getChildrensCount(T parent, SingularAttribute<T, ?> parent_)

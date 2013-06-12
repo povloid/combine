@@ -11,9 +11,21 @@ import pk.home.libs.combine.basic.TreeFunctional;
 import pk.home.libs.combine.dao.ABaseTreeDAO;
 import pk.home.libs.combine.dao.ABaseDAO.SortOrderType;
 
+/**
+ * The Class ABaseTreeService.
+ *
+ * @param <T> the generic type
+ * @author Kopychenko Pavel
+ * @date Jun 12, 2012
+ */
 public abstract class ABaseTreeService<T extends Object> extends
 		ABaseService<T> implements TreeFunctional<T> {
 
+	/**
+	 * Gets the abstract basic tree dao.
+	 *
+	 * @return the abstract basic tree dao
+	 */
 	public abstract ABaseTreeDAO<T> getAbstractBasicTreeDAO();
 
 	/**
@@ -21,11 +33,11 @@ public abstract class ABaseTreeService<T extends Object> extends
 	 * 
 	 * Данный метод вынесен на уровень сервиса потому что работа с деревьями
 	 * может быть разная, например с деревьями в которых возможно замыкание
-	 * ветвей самих на себя
-	 * 
-	 * @param objects
-	 * @param parent
-	 * @throws Exception
+	 * ветвей самих на себя.
+	 *
+	 * @param objects the objects
+	 * @param parent the parent
+	 * @throws Exception the exception
 	 */
 	@ExceptionHandler(Exception.class)
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
@@ -34,17 +46,19 @@ public abstract class ABaseTreeService<T extends Object> extends
 			setParent(object, parent);
 		}
 	}
+	
+	
 
 	/**
 	 * Метод группового присвоения родителя
 	 * 
 	 * Данный метод вынесен на уровень сервиса потому что работа с деревьями
 	 * может быть разная, например с деревьями в которых возможно замыкание
-	 * ветвей самих на себя
-	 * 
-	 * @param objects
-	 * @param parent
-	 * @throws Exception
+	 * ветвей самих на себя.
+	 *
+	 * @param objects the objects
+	 * @param parent the parent
+	 * @throws Exception the exception
 	 */
 	@ExceptionHandler(Exception.class)
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
@@ -87,6 +101,9 @@ public abstract class ABaseTreeService<T extends Object> extends
 	// maxResults, orderByAttribute, sortOrder);
 	// }
 
+	/* (non-Javadoc)
+	 * @see pk.home.libs.combine.basic.TreeFunctional#getChildrens(java.lang.Object, javax.persistence.metamodel.SingularAttribute)
+	 */
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED,readOnly=true)
 	public List<T> getChildrens(T parent, SingularAttribute<T, ?> parent_)
@@ -95,6 +112,9 @@ public abstract class ABaseTreeService<T extends Object> extends
 				SortOrderType.ASC);
 	}
 
+	/* (non-Javadoc)
+	 * @see pk.home.libs.combine.basic.TreeFunctional#getChildrens(java.lang.Object, javax.persistence.metamodel.SingularAttribute, javax.persistence.metamodel.SingularAttribute, pk.home.libs.combine.dao.ABaseDAO.SortOrderType)
+	 */
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED,readOnly=true)
 	public List<T> getChildrens(T parent, SingularAttribute<T, ?> parent_,
@@ -104,6 +124,9 @@ public abstract class ABaseTreeService<T extends Object> extends
 				sortOrder);
 	}
 
+	/* (non-Javadoc)
+	 * @see pk.home.libs.combine.basic.TreeFunctional#getChildrens(java.lang.Object, javax.persistence.metamodel.SingularAttribute, int, int)
+	 */
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED,readOnly=true)
 	public List<T> getChildrens(T parent, SingularAttribute<T, ?> parent_,
@@ -112,6 +135,9 @@ public abstract class ABaseTreeService<T extends Object> extends
 				null, SortOrderType.ASC);
 	}
 	
+	/* (non-Javadoc)
+	 * @see pk.home.libs.combine.basic.TreeFunctional#getChildrens(java.lang.Object, javax.persistence.metamodel.SingularAttribute, int, int, javax.persistence.metamodel.SingularAttribute, pk.home.libs.combine.dao.ABaseDAO.SortOrderType)
+	 */
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED,readOnly=true)
 	public List<T> getChildrens(T parent, SingularAttribute<T, ?> parent_,
@@ -122,6 +148,9 @@ public abstract class ABaseTreeService<T extends Object> extends
 	}
 	
 
+	/* (non-Javadoc)
+	 * @see pk.home.libs.combine.basic.TreeFunctional#getChildrens(java.lang.Object, javax.persistence.metamodel.SingularAttribute, boolean, int, int, javax.persistence.metamodel.SingularAttribute, pk.home.libs.combine.dao.ABaseDAO.SortOrderType)
+	 */
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED,readOnly=true)
 	public List<T> getChildrens(T parent, SingularAttribute<T, ?> parent_,
@@ -134,6 +163,9 @@ public abstract class ABaseTreeService<T extends Object> extends
 	
 	// ----------------------------------------------------------------------------------------------------------------
 	
+	/* (non-Javadoc)
+	 * @see pk.home.libs.combine.basic.TreeFunctional#getChildrensCount(java.lang.Object, javax.persistence.metamodel.SingularAttribute)
+	 */
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED,readOnly=true)
 	public long  getChildrensCount(T parent, SingularAttribute<T, ?> parent_)

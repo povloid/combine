@@ -10,111 +10,139 @@ import javax.persistence.metamodel.SingularAttribute;
 import pk.home.libs.combine.dao.ABaseDAO.SortOrderType;
 
 /**
+ * Интерфейс, описывающий функционал работы с деревом.
  * 
- * Интерфейс, описывающи функционал работы с деревом
- * 
- * 
- * @author traveler
- *
+ * @param <T> the generic type
+ * @author Kopychenko Pavel
+ * @date Jun 12, 2012
  */
-public interface TreeFunctional <T extends Object>{
-		
-//	/**
-//	 * Получить количество дочерних объектов
-//	 * @param parent
-//	 * @return
-//	 * @throws Exception
-//	 */
-//	long getChildrensCount(T parent) throws Exception;
-//	
-	
-	// ----------------------------------------------------------------------------------------------------------------
-	
-//	/**
-//	 * Получить список дочерних объектов
-//	 * @param parent
-//	 * @return
-//	 * @throws Exception
-//	 */
-//	List<T> getChildrens(T parent) throws Exception;
-//	
-//	
-//	/**
-//	 * Получить список дочерних объектов cс сортировкой
-//	 * @param parent
-//	 * @param orderByAttribute
-//	 * @param sortOrder
-//	 * @return
-//	 * @throws Exception
-//	 */
-//	List<T> getChildrens(T parent, SingularAttribute<T, ?> orderByAttribute,
-//			SortOrderType sortOrder) throws Exception;
-//	
-//	
-//	/**
-//	 * Получить список дочерних объектов - порционно
-//	 * @param parent
-//	 * @param firstResult
-//	 * @param maxResults
-//	 * @return
-//	 * @throws Exception
-//	 */
-//	List<T> getChildrens(T parent, int firstResult, int maxResults) throws Exception;
-//	
-//	/**
-//	 * Получить список дочерних объектов - порционно и сортируя
-//	 * @param parent
-//	 * @param all
-//	 * @param firstResult
-//	 * @param maxResults
-//	 * @param orderByAttribute
-//	 * @param sortOrder
-//	 * @return
-//	 * @throws Exception
-//	 */
-//	List<T> getChildrens(T parent, boolean all, int firstResult, int maxResults,
-//			SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder) throws Exception;
-	
-	
-	// ----------------------------------------------------------------------------------------------------------------
-	
+public interface TreeFunctional<T extends Object> {
+
 	/**
-	 * Установить нового родителя
+	 * Установить нового родителя.
+	 * 
 	 * @param object
+	 *            the object
 	 * @param parent
+	 *            the parent
 	 * @throws Exception
+	 *             the exception
 	 */
 	void setParent(T object, T parent) throws Exception;
 
-
+	/**
+	 * Gets the childrens.
+	 * 
+	 * @param parent
+	 *            the parent
+	 * @param parent_
+	 *            the parent_
+	 * @return the childrens
+	 * @throws Exception
+	 *             the exception
+	 */
 	List<T> getChildrens(T parent, SingularAttribute<T, ?> parent_)
 			throws Exception;
 
-
+	/**
+	 * Gets the childrens.
+	 * 
+	 * @param parent
+	 *            the parent
+	 * @param parent_
+	 *            the parent_
+	 * @param orderByAttribute
+	 *            the order by attribute
+	 * @param sortOrder
+	 *            the sort order
+	 * @return the childrens
+	 * @throws Exception
+	 *             the exception
+	 */
 	List<T> getChildrens(T parent, SingularAttribute<T, ?> parent_,
 			SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder)
 			throws Exception;
 
-
+	/**
+	 * Gets the childrens.
+	 * 
+	 * @param parent
+	 *            the parent
+	 * @param parent_
+	 *            the parent_
+	 * @param firstResult
+	 *            the first result
+	 * @param maxResults
+	 *            the max results
+	 * @return the childrens
+	 * @throws Exception
+	 *             the exception
+	 */
 	List<T> getChildrens(T parent, SingularAttribute<T, ?> parent_,
 			int firstResult, int maxResults) throws Exception;
 
-	
+	/**
+	 * Gets the childrens.
+	 * 
+	 * @param parent
+	 *            the parent
+	 * @param parent_
+	 *            the parent_
+	 * @param firstResult
+	 *            the first result
+	 * @param maxResults
+	 *            the max results
+	 * @param orderByAttribute
+	 *            the order by attribute
+	 * @param sortOrder
+	 *            the sort order
+	 * @return the childrens
+	 * @throws Exception
+	 *             the exception
+	 */
 	List<T> getChildrens(T parent, SingularAttribute<T, ?> parent_,
 			int firstResult, int maxResults,
 			SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder)
 			throws Exception;
 
+	/**
+	 * Gets the childrens.
+	 * 
+	 * @param parent
+	 *            the parent
+	 * @param parent_
+	 *            the parent_
+	 * @param all
+	 *            the all
+	 * @param firstResult
+	 *            the first result
+	 * @param maxResults
+	 *            the max results
+	 * @param orderByAttribute
+	 *            the order by attribute
+	 * @param sortOrder
+	 *            the sort order
+	 * @return the childrens
+	 * @throws Exception
+	 *             the exception
+	 */
 	List<T> getChildrens(T parent, SingularAttribute<T, ?> parent_,
 			boolean all, int firstResult, int maxResults,
 			SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder)
 			throws Exception;
 
-
+	/**
+	 * Gets the childrens count.
+	 * 
+	 * @param parent
+	 *            the parent
+	 * @param parent_
+	 *            the parent_
+	 * @return the childrens count
+	 * @throws Exception
+	 *             the exception
+	 */
 	long getChildrensCount(T parent, SingularAttribute<T, ?> parent_)
 			throws Exception;
-	
-	
-	
 
 }

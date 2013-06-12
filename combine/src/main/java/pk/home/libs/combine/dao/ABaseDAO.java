@@ -12,6 +12,14 @@ import javax.persistence.TypedQuery;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * The Class ABaseDAO.
+ *
+ * @param <T> the generic type
+ * 
+ * @author Kopychenko Pavel
+ * @date Jun 12, 2012
+ */
 public abstract class ABaseDAO<T extends Object> {
 
 	/**
@@ -30,6 +38,7 @@ public abstract class ABaseDAO<T extends Object> {
 	 */
 	public static final int DEFAULT_MAX_RESULTS = 200;
 
+	/** The default max results. */
 	private int defaultMaxResults = DEFAULT_MAX_RESULTS;
 
 	/**
@@ -41,35 +50,60 @@ public abstract class ABaseDAO<T extends Object> {
 	public abstract EntityManager getEntityManager();
 
 	/**
-	 * Получить тип
-	 * 
-	 * @return
+	 * Получить тип.
+	 *
+	 * @return the t class
 	 */
 	protected abstract Class<T> getTClass();
 
 	/**
-	 * Получить первичный ключ
-	 * 
-	 * @param o
-	 * @return
+	 * Получить первичный ключ.
+	 *
+	 * @param o the o
+	 * @return the primary key
 	 */
 	public abstract Object getPrimaryKey(T o);
 
+	/**
+	 * The Enum SortOrderType.
+	 */
 	public enum SortOrderType {
 		ASC, DESC
 	}
 
+	/**
+	 * Gets the all entities.
+	 *
+	 * @return the all entities
+	 * @throws Exception the exception
+	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<T> getAllEntities() throws Exception {
 		return getAllEntities(true, -1, -1, null, SortOrderType.ASC);
 	}
 
+	/**
+	 * Gets the all entities.
+	 *
+	 * @param orderByAttribute the order by attribute
+	 * @param sortOrder the sort order
+	 * @return the all entities
+	 * @throws Exception the exception
+	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<T> getAllEntities(SingularAttribute<T, ?> orderByAttribute,
 			SortOrderType sortOrder) throws Exception {
 		return getAllEntities(true, -1, -1, orderByAttribute, sortOrder);
 	}
 
+	/**
+	 * Gets the all entities.
+	 *
+	 * @param firstResult the first result
+	 * @param maxResults the max results
+	 * @return the all entities
+	 * @throws Exception the exception
+	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<T> getAllEntities(int firstResult, int maxResults)
 			throws Exception {
@@ -77,6 +111,16 @@ public abstract class ABaseDAO<T extends Object> {
 				SortOrderType.ASC);
 	}
 
+	/**
+	 * Gets the all entities.
+	 *
+	 * @param firstResult the first result
+	 * @param maxResults the max results
+	 * @param orderByAttribute the order by attribute
+	 * @param sortOrder the sort order
+	 * @return the all entities
+	 * @throws Exception the exception
+	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<T> getAllEntities(int firstResult, int maxResults,
 			SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder)
@@ -85,6 +129,17 @@ public abstract class ABaseDAO<T extends Object> {
 				sortOrder);
 	}
 
+	/**
+	 * Gets the all entities.
+	 *
+	 * @param all the all
+	 * @param firstResult the first result
+	 * @param maxResults the max results
+	 * @param orderByAttribute the order by attribute
+	 * @param sortOrder the sort order
+	 * @return the all entities
+	 * @throws Exception the exception
+	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<T> getAllEntities(boolean all, int firstResult, int maxResults,
 			SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder)
@@ -116,12 +171,18 @@ public abstract class ABaseDAO<T extends Object> {
 
 		if (!all) {
 			q.setMaxResults(maxResults);
-			// //System.out.println(">>>firstResult = " + firstResult);
 			q.setFirstResult(firstResult >= 0 ? firstResult : 0);
 		}
 		return q.getResultList();
 	}
 
+	/**
+	 * Find.
+	 *
+	 * @param key the key
+	 * @return the t
+	 * @throws Exception the exception
+	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public T find(Object key) throws Exception {
 		if (key == null) {
@@ -131,12 +192,25 @@ public abstract class ABaseDAO<T extends Object> {
 		}
 	}
 
+	/**
+	 * Gets the managed entity.
+	 *
+	 * @param unmanagedBean the unmanaged bean
+	 * @return the managed entity
+	 * @throws Exception the exception
+	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public T getManagedEntity(T unmanagedBean) throws Exception {
 		return getEntityManager().find(getTClass(),
 				getPrimaryKey(unmanagedBean));
 	}
 
+	/**
+	 * Count.
+	 *
+	 * @return the long
+	 * @throws Exception the exception
+	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public long count() throws Exception {
 		CriteriaQuery<Object> cq = getEntityManager().getCriteriaBuilder()
@@ -147,6 +221,14 @@ public abstract class ABaseDAO<T extends Object> {
 		return ((Long) q.getSingleResult()).longValue();
 	}
 
+	/**
+	 * Count.
+	 *
+	 * @param rt the rt
+	 * @param cq the cq
+	 * @return the long
+	 * @throws Exception the exception
+	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public long count(Root<T> rt, CriteriaQuery<Object> cq) throws Exception {
 		cq.select(getEntityManager().getCriteriaBuilder().count(rt));
@@ -157,25 +239,24 @@ public abstract class ABaseDAO<T extends Object> {
 	// -------------------------------------------------------------------------------------------------------------
 
 	/**
-	 * Add new o
-	 * 
-	 * @param o
-	 * @return
-	 * @throws Exception
+	 * Add new o.
+	 *
+	 * @param o the o
+	 * @return the t
+	 * @throws Exception the exception
 	 */
 	@Transactional(propagation = Propagation.REQUIRED)
 	public T persist(T o) throws Exception {
-		// //LOG.debug(">>>PERSIST: " + o.toString());
 		getEntityManager().persist(o);
 		return o;
 	}
 
 	/**
-	 * Refresh the deatached bean
-	 * 
-	 * @param o
-	 * @return
-	 * @throws Exception
+	 * Refresh the deatached bean.
+	 *
+	 * @param o the o
+	 * @return the t
+	 * @throws Exception the exception
 	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public T refresh(T o) throws Exception {
@@ -184,11 +265,11 @@ public abstract class ABaseDAO<T extends Object> {
 	}
 
 	/**
-	 * The update bean
-	 * 
-	 * @param o
-	 * @return
-	 * @throws Exception
+	 * The update bean.
+	 *
+	 * @param o the o
+	 * @return the t
+	 * @throws Exception the exception
 	 */
 	@Transactional(propagation = Propagation.REQUIRED)
 	public T merge(T o) throws Exception {
@@ -197,10 +278,10 @@ public abstract class ABaseDAO<T extends Object> {
 	}
 
 	/**
-	 * Delete bean
-	 * 
-	 * @param section
-	 * @throws Exception
+	 * Delete bean.
+	 *
+	 * @param o the o
+	 * @throws Exception the exception
 	 */
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void remove(T o) throws Exception {
@@ -210,19 +291,42 @@ public abstract class ABaseDAO<T extends Object> {
 
 	// ---------------------------------------------------------------------------------
 
+	/**
+	 * Sets the default max results.
+	 *
+	 * @param defaultMaxResults the new default max results
+	 */
 	public void setDefaultMaxResults(int defaultMaxResults) {
 		this.defaultMaxResults = defaultMaxResults;
 	}
 
+	/**
+	 * Gets the default max results.
+	 *
+	 * @return the default max results
+	 */
 	public int getDefaultMaxResults() {
 		return defaultMaxResults;
 	}
 
+	/**
+	 * Execute query by name single result.
+	 *
+	 * @param queryName the query name
+	 * @return the t
+	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public T executeQueryByNameSingleResult(String queryName) {
 		return (T) executeQueryByNameSingleResult(queryName, (Object[]) null);
 	}
 
+	/**
+	 * Execute query by name single result.
+	 *
+	 * @param queryName the query name
+	 * @param parameters the parameters
+	 * @return the t
+	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public T executeQueryByNameSingleResult(String queryName,
 			Object... parameters) {
@@ -231,12 +335,26 @@ public abstract class ABaseDAO<T extends Object> {
 		return (T) query.getSingleResult();
 	}
 
+	/**
+	 * Execute query by name.
+	 *
+	 * @param queryName the query name
+	 * @return the list
+	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<T> executeQueryByName(String queryName) {
 		return executeQueryByName(queryName, DEFAULT_FIRST_RESULT_INDEX,
 				getDefaultMaxResults());
 	}
 
+	/**
+	 * Execute query by name.
+	 *
+	 * @param queryName the query name
+	 * @param firstResult the first result
+	 * @param maxResults the max results
+	 * @return the list
+	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<T> executeQueryByName(String queryName, Integer firstResult,
 			Integer maxResults) {
@@ -244,12 +362,28 @@ public abstract class ABaseDAO<T extends Object> {
 				(Object[]) null);
 	}
 
+	/**
+	 * Execute query by name.
+	 *
+	 * @param queryName the query name
+	 * @param parameters the parameters
+	 * @return the list
+	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<T> executeQueryByName(String queryName, Object... parameters) {
 		return executeQueryByName(queryName, DEFAULT_FIRST_RESULT_INDEX,
 				getDefaultMaxResults(), parameters);
 	}
 
+	/**
+	 * Execute query by name.
+	 *
+	 * @param queryName the query name
+	 * @param firstResult the first result
+	 * @param maxResults the max results
+	 * @param parameters the parameters
+	 * @return the list
+	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<T> executeQueryByName(String queryName, Integer firstResult,
 			Integer maxResults, Object... parameters) {
@@ -258,6 +392,14 @@ public abstract class ABaseDAO<T extends Object> {
 		return query.getResultList();
 	}
 
+	/**
+	 * Creates the named query.
+	 *
+	 * @param queryName the query name
+	 * @param firstResult the first result
+	 * @param maxResults the max results
+	 * @return the typed query
+	 */
 	@Transactional
 	public TypedQuery<T> createNamedQuery(String queryName,
 			Integer firstResult, Integer maxResults) {
@@ -265,6 +407,15 @@ public abstract class ABaseDAO<T extends Object> {
 				(Object[]) null);
 	}
 
+	/**
+	 * Creates the named query.
+	 *
+	 * @param queryName the query name
+	 * @param firstResult the first result
+	 * @param maxResults the max results
+	 * @param parameters the parameters
+	 * @return the typed query
+	 */
 	@Transactional
 	public TypedQuery<T> createNamedQuery(String queryName,
 			Integer firstResult, Integer maxResults, Object... parameters) {
@@ -285,6 +436,15 @@ public abstract class ABaseDAO<T extends Object> {
 		return query;
 	}
 
+	/**
+	 * Execute query.
+	 *
+	 * @param queryString the query string
+	 * @param firstResult the first result
+	 * @param maxResults the max results
+	 * @param parameters the parameters
+	 * @return the list
+	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<T> executeQuery(String queryString, Integer firstResult,
 			Integer maxResults, Object... parameters) {
@@ -293,6 +453,13 @@ public abstract class ABaseDAO<T extends Object> {
 		return query.getResultList();
 	}
 
+	/**
+	 * Execute query.
+	 *
+	 * @param queryString the query string
+	 * @param parameters the parameters
+	 * @return the list
+	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<T> executeQuery(String queryString, Object... parameters) {
 		TypedQuery<T> query = createQuery(getTClass(), queryString,
@@ -300,11 +467,24 @@ public abstract class ABaseDAO<T extends Object> {
 		return query.getResultList();
 	}
 
+	/**
+	 * Execute query single result.
+	 *
+	 * @param queryString the query string
+	 * @return the t
+	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public T executeQuerySingleResult(String queryString) {
 		return executeQuerySingleResult(queryString, (Object[]) null);
 	}
 
+	/**
+	 * Execute query single result.
+	 *
+	 * @param queryString the query string
+	 * @param parameters the parameters
+	 * @return the t
+	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public T executeQuerySingleResult(String queryString, Object... parameters) {
 		TypedQuery<T> query = createQuerySingleResult(getTClass(), queryString,
@@ -312,6 +492,15 @@ public abstract class ABaseDAO<T extends Object> {
 		return query.getSingleResult();
 	}
 
+	/**
+	 * Creates the query.
+	 *
+	 * @param resultClass the result class
+	 * @param queryString the query string
+	 * @param firstResult the first result
+	 * @param maxResults the max results
+	 * @return the typed query
+	 */
 	@Transactional
 	public TypedQuery<T> createQuery(Class<T> resultClass, String queryString,
 			Integer firstResult, Integer maxResults) {
@@ -319,6 +508,14 @@ public abstract class ABaseDAO<T extends Object> {
 				(Object[]) null);
 	}
 
+	/**
+	 * Creates the query single result.
+	 *
+	 * @param resultClass the result class
+	 * @param queryString the query string
+	 * @param parameters the parameters
+	 * @return the typed query
+	 */
 	@Transactional
 	public TypedQuery<T> createQuerySingleResult(Class<T> resultClass,
 			String queryString, Object... parameters) {
@@ -326,6 +523,16 @@ public abstract class ABaseDAO<T extends Object> {
 				DEFAULT_FIRST_RESULT_INDEX, 1, parameters);
 	}
 
+	/**
+	 * Creates the query.
+	 *
+	 * @param resultClass the result class
+	 * @param queryString the query string
+	 * @param firstResult the first result
+	 * @param maxResults the max results
+	 * @param parameters the parameters
+	 * @return the typed query
+	 */
 	@Transactional
 	public TypedQuery<T> createQuery(Class<T> resultClass, String queryString,
 			Integer firstResult, Integer maxResults, Object... parameters) {
@@ -346,15 +553,27 @@ public abstract class ABaseDAO<T extends Object> {
 		return query;
 	}
 
-	// BASIC *****************************************************************
-
+	// BASIC ********************************************************************************************************************
 	// -------
 
+	/**
+	 * Execute query by name single result o.
+	 *
+	 * @param queryName the query name
+	 * @return the object
+	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public Object executeQueryByNameSingleResultO(String queryName) {
 		return executeQueryByNameSingleResultO(queryName, (Object[]) null);
 	}
 
+	/**
+	 * Execute query by name single result o.
+	 *
+	 * @param queryName the query name
+	 * @param parameters the parameters
+	 * @return the object
+	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public Object executeQueryByNameSingleResultO(String queryName,
 			Object... parameters) {
@@ -365,12 +584,26 @@ public abstract class ABaseDAO<T extends Object> {
 
 	// -------
 
+	/**
+	 * Execute query by name o.
+	 *
+	 * @param queryName the query name
+	 * @return the list
+	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<Object> executeQueryByNameO(String queryName) {
 		return executeQueryByNameO(queryName, DEFAULT_FIRST_RESULT_INDEX,
 				getDefaultMaxResults());
 	}
 
+	/**
+	 * Execute query by name o.
+	 *
+	 * @param queryName the query name
+	 * @param firstResult the first result
+	 * @param maxResults the max results
+	 * @return the list
+	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<Object> executeQueryByNameO(String queryName,
 			Integer firstResult, Integer maxResults) {
@@ -378,6 +611,13 @@ public abstract class ABaseDAO<T extends Object> {
 				(Object[]) null);
 	}
 
+	/**
+	 * Execute query by name o.
+	 *
+	 * @param queryName the query name
+	 * @param parameters the parameters
+	 * @return the list
+	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<Object> executeQueryByNameO(String queryName,
 			Object... parameters) {
@@ -385,6 +625,15 @@ public abstract class ABaseDAO<T extends Object> {
 				getDefaultMaxResults(), parameters);
 	}
 
+	/**
+	 * Execute query by name o.
+	 *
+	 * @param queryName the query name
+	 * @param firstResult the first result
+	 * @param maxResults the max results
+	 * @param parameters the parameters
+	 * @return the list
+	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<Object> executeQueryByNameO(String queryName,
 			Integer firstResult, Integer maxResults, Object... parameters) {
@@ -395,6 +644,15 @@ public abstract class ABaseDAO<T extends Object> {
 
 	// --------
 
+	/**
+	 * Creates the named query obj.
+	 *
+	 * @param queryName the query name
+	 * @param firstResult the first result
+	 * @param maxResults the max results
+	 * @param parameters the parameters
+	 * @return the typed query
+	 */
 	@Transactional
 	public TypedQuery<Object> createNamedQueryObj(String queryName,
 			Integer firstResult, Integer maxResults, Object... parameters) {
@@ -417,6 +675,15 @@ public abstract class ABaseDAO<T extends Object> {
 
 	// -------------------------
 
+	/**
+	 * Execute query o.
+	 *
+	 * @param queryString the query string
+	 * @param firstResult the first result
+	 * @param maxResults the max results
+	 * @param parameters the parameters
+	 * @return the list
+	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<Object> executeQueryO(String queryString, Integer firstResult,
 			Integer maxResults, Object... parameters) {
@@ -425,6 +692,13 @@ public abstract class ABaseDAO<T extends Object> {
 		return query.getResultList();
 	}
 
+	/**
+	 * Execute query o.
+	 *
+	 * @param queryString the query string
+	 * @param parameters the parameters
+	 * @return the list
+	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<Object> executeQueryO(String queryString, Object... parameters) {
 		TypedQuery<Object> query = createQueryObj(queryString,
@@ -432,11 +706,24 @@ public abstract class ABaseDAO<T extends Object> {
 		return query.getResultList();
 	}
 
+	/**
+	 * Execute query single result o.
+	 *
+	 * @param queryString the query string
+	 * @return the object
+	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public Object executeQuerySingleResultO(String queryString) {
 		return executeQuerySingleResult(queryString, (Object[]) null);
 	}
 
+	/**
+	 * Execute query single result o.
+	 *
+	 * @param queryString the query string
+	 * @param parameters the parameters
+	 * @return the object
+	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public Object executeQuerySingleResultO(String queryString,
 			Object... parameters) {
@@ -445,6 +732,13 @@ public abstract class ABaseDAO<T extends Object> {
 		return query.getSingleResult();
 	}
 
+	/**
+	 * Creates the query single result obj.
+	 *
+	 * @param queryString the query string
+	 * @param parameters the parameters
+	 * @return the typed query
+	 */
 	@Transactional
 	public TypedQuery<Object> createQuerySingleResultObj(String queryString,
 			Object... parameters) {
@@ -452,6 +746,14 @@ public abstract class ABaseDAO<T extends Object> {
 				parameters);
 	}
 
+	/**
+	 * Creates the query obj.
+	 *
+	 * @param queryString the query string
+	 * @param firstResult the first result
+	 * @param maxResults the max results
+	 * @return the typed query
+	 */
 	@Transactional
 	public TypedQuery<Object> createQueryObj(String queryString,
 			Integer firstResult, Integer maxResults) {
@@ -459,6 +761,15 @@ public abstract class ABaseDAO<T extends Object> {
 				(Object[]) null);
 	}
 
+	/**
+	 * Creates the query obj.
+	 *
+	 * @param queryString the query string
+	 * @param firstResult the first result
+	 * @param maxResults the max results
+	 * @param parameters the parameters
+	 * @return the typed query
+	 */
 	@Transactional
 	public TypedQuery<Object> createQueryObj(String queryString,
 			Integer firstResult, Integer maxResults, Object... parameters) {
@@ -482,17 +793,43 @@ public abstract class ABaseDAO<T extends Object> {
 	// Criteria functions
 	// -------------------------------------------------------------------------------------------------------------
 
+	/**
+	 * Gets the criteria builder.
+	 *
+	 * @return the criteria builder
+	 * @throws Exception the exception
+	 */
 	@Transactional(propagation = Propagation.REQUIRED)
 	public CriteriaBuilder getCriteriaBuilder() throws Exception {
 		return getEntityManager().getCriteriaBuilder();
 	}
 
+	/**
+	 * Gets the all entities.
+	 *
+	 * @param cb the cb
+	 * @param cq the cq
+	 * @param t the t
+	 * @return the all entities
+	 * @throws Exception the exception
+	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<T> getAllEntities(CriteriaBuilder cb, CriteriaQuery<T> cq,
 			Root<T> t) throws Exception {
 		return getAllEntities(true, -1, -1, null, null, cb, cq, t);
 	}
 
+	/**
+	 * Gets the all entities.
+	 *
+	 * @param orderByAttribute the order by attribute
+	 * @param sortOrder the sort order
+	 * @param cb the cb
+	 * @param cq the cq
+	 * @param t the t
+	 * @return the all entities
+	 * @throws Exception the exception
+	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<T> getAllEntities(SingularAttribute<T, ?> orderByAttribute,
 			SortOrderType sortOrder, CriteriaBuilder cb, CriteriaQuery<T> cq,
@@ -501,6 +838,19 @@ public abstract class ABaseDAO<T extends Object> {
 				cq, t);
 	}
 
+	/**
+	 * Gets the all entities.
+	 *
+	 * @param firstResult the first result
+	 * @param maxResults the max results
+	 * @param orderByAttribute the order by attribute
+	 * @param sortOrder the sort order
+	 * @param cb the cb
+	 * @param cq the cq
+	 * @param t the t
+	 * @return the all entities
+	 * @throws Exception the exception
+	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<T> getAllEntities(int firstResult, int maxResults,
 			SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder,
@@ -510,6 +860,20 @@ public abstract class ABaseDAO<T extends Object> {
 				sortOrder, cb, cq, t);
 	}
 
+	/**
+	 * Gets the all entities.
+	 *
+	 * @param all the all
+	 * @param firstResult the first result
+	 * @param maxResults the max results
+	 * @param orderByAttribute the order by attribute
+	 * @param sortOrder the sort order
+	 * @param cb the cb
+	 * @param cq the cq
+	 * @param t the t
+	 * @return the all entities
+	 * @throws Exception the exception
+	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<T> getAllEntities(boolean all, int firstResult, int maxResults,
 			SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder,
@@ -533,6 +897,16 @@ public abstract class ABaseDAO<T extends Object> {
 		return getAllEntities(all, firstResult, maxResults, cq);
 	}
 
+	/**
+	 * Gets the all entities.
+	 *
+	 * @param all the all
+	 * @param firstResult the first result
+	 * @param maxResults the max results
+	 * @param cq the cq
+	 * @return the all entities
+	 * @throws Exception the exception
+	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<T> getAllEntities(boolean all, int firstResult, int maxResults,
 			CriteriaQuery<T> cq) throws Exception {
@@ -552,6 +926,13 @@ public abstract class ABaseDAO<T extends Object> {
 	// Single result
 	// ------------------------------------------------------------------
 
+	/**
+	 * Gets the single result.
+	 *
+	 * @param cq the cq
+	 * @return the single result
+	 * @throws Exception the exception
+	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public Object getSinleResult(CriteriaQuery<Object> cq) throws Exception {
 

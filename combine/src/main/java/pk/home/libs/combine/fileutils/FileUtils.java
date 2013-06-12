@@ -4,50 +4,33 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
-
-
-
 /**
- * @author kopychenko
+ * Specified file utilites
  * 
- * Файловые утилиты
- *
+ * @param <T> the generic type
+ * @author Kopychenko Pavel
+ * @date Jun 12, 2012
  */
 public final class FileUtils {
 	
-	private static final SimpleDateFormat sdf1 = new SimpleDateFormat("/yyyy/MM/dd/");
+	private static final SimpleDateFormat DATA_DIR_FORMAT = new SimpleDateFormat("/yyyy/MM/dd/");
 	
 	/**
-	 * Получить структуру каталогов изходя из текущей даты
-	 * в формате /yyyy/MM/dd/
+	 * Creating file structure
+	 * for next format /yyyy/MM/dd/
 	 * @return
 	 */
 	public static String getCurentTimeDirsPath(){
-		return sdf1.format(new Date());
+		return DATA_DIR_FORMAT.format(new Date());
 	}
 	
-	
-	
 	/**
-	 * Создать структуру каталогов
+	 * Create dirs
 	 * 
 	 * @param path
 	 * @throws Exception
 	 */
 	public static void mkDirs(String path) throws Exception{
 		(new File(path)).mkdirs();
-//		boolean success = (new File(path)).mkdirs();
-//		
-//		if(!success){
-//			throw new Exception("Error! when was creting dirs structute: " + path);
-//		}
 	}
-	
-	
-	
-	
-	
-	
-
 }
