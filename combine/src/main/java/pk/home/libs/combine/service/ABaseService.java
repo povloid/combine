@@ -1,10 +1,13 @@
 package pk.home.libs.combine.service;
 
 import java.util.List;
+
+import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.metamodel.SingularAttribute;
 
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import pk.home.libs.combine.dao.ABaseDAO;
 import pk.home.libs.combine.dao.ABaseDAO.SortOrderType;
 
@@ -87,6 +90,19 @@ public abstract class ABaseService<T extends Object> {
 	public T find(Object key) throws Exception {
 		return getAbstractBasicDAO().find(key);
 	}
+	
+	/**
+	 * Find advanced.
+	 *
+	 * @param cq the cq
+	 * @return the <T>
+	 * @throws Exception the exception
+	 */
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public T findAdvanced(CriteriaQuery<T> cq) throws Exception {
+		return getAbstractBasicDAO().findAdvanced(cq);
+	}
+	
 
 	/**
 	 * Gets the all entities.
@@ -177,4 +193,10 @@ public abstract class ABaseService<T extends Object> {
 	public long count() throws Exception {
 		return getAbstractBasicDAO().count();
 	}
+	
+	
+	
+	
+	
+	
 }

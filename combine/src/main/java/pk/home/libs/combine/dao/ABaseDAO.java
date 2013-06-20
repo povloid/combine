@@ -1,9 +1,11 @@
 package pk.home.libs.combine.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.EntityManager;
@@ -145,9 +147,8 @@ public abstract class ABaseDAO<T extends Object> {
 			SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder)
 			throws Exception {
 
-		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder(); // Только
-																		// так
-																		// заработало
+		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder(); // Только	так !
+																		
 		CriteriaQuery<T> cq = cb.createQuery(getTClass());
 		Root<T> t = cq.from(getTClass());
 
@@ -191,6 +192,186 @@ public abstract class ABaseDAO<T extends Object> {
 			return getEntityManager().find(getTClass(), key);
 		}
 	}
+	
+	/**
+	 * Gets the single result.
+	 * 
+	 * @param cq
+	 *            the cq
+	 * @return the single result
+	 * @throws Exception
+	 *             the exception
+	 */
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public Object findAdvancedObj(CriteriaQuery<Object> cq) throws Exception {
+
+		// create query
+		// ----------------------------------------------------------------------------
+		TypedQuery<Object> q = getEntityManager().createQuery(cq);
+
+		return q.getSingleResult();
+	}
+	
+	
+	/**
+	 * Find advanced.
+	 *
+	 * @param cq the cq
+	 * @return the <T>
+	 * @throws Exception the exception
+	 */
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public T findAdvanced(CriteriaQuery<T> cq) throws Exception {
+		TypedQuery<T> q = getEntityManager().createQuery(cq);
+		return q.getSingleResult();
+	}
+	
+	/**
+	 * Find advanced.
+	 *
+	 * @param attribute the attribute
+	 * @return the <T>
+	 * @throws Exception the exception
+	 */
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public T findAdvanced(SingularAttribute<T, ?> attribute, Object value) throws Exception {
+		
+		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder(); // Только	так !
+		CriteriaQuery<T> cq = cb.createQuery(getTClass());
+		Root<T> t = cq.from(getTClass());
+
+		cb.equal(t.get(attribute), value);
+		
+		TypedQuery<T> q = getEntityManager().createQuery(cq);
+		return q.getSingleResult();
+	}
+	
+	/**
+	 * Find advanced.
+	 * 
+	 * @param attribute1
+	 *            the attribute1
+	 * @param value1
+	 *            the value1
+	 * @param attribute2
+	 *            the attribute2
+	 * @param value2
+	 *            the value2
+	 * @return the <T>
+	 * @throws Exception
+	 *             the exception
+	 */
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public T findAdvanced(SingularAttribute<T, ?> attribute1, Object value1,
+			SingularAttribute<T, ?> attribute2, Object value2) throws Exception {
+
+		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder(); // Только
+																		// так !
+		CriteriaQuery<T> cq = cb.createQuery(getTClass());
+		Root<T> t = cq.from(getTClass());
+
+		cq.where(cb.and(
+				cb.equal(t.get(attribute1), value1),
+				cb.equal(t.get(attribute2), value2)));
+
+		TypedQuery<T> q = getEntityManager().createQuery(cq);
+		return q.getSingleResult();
+	}
+	
+	/**
+	 * Find advanced.
+	 *
+	 * @param attribute1 the attribute1
+	 * @param value1 the value1
+	 * @param attribute2 the attribute2
+	 * @param value2 the value2
+	 * @param attribute3 the attribute3
+	 * @param value3 the value3
+	 * @return the <T>
+	 * @throws Exception the exception
+	 */
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public T findAdvanced(SingularAttribute<T, ?> attribute1, Object value1,
+			SingularAttribute<T, ?> attribute2, Object value2, SingularAttribute<T, ?> attribute3, Object value3) throws Exception {
+
+		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder(); // Только
+																		// так !
+		CriteriaQuery<T> cq = cb.createQuery(getTClass());
+		Root<T> t = cq.from(getTClass());
+
+		cq.where(cb.and(
+				cb.equal(t.get(attribute1), value1),
+				cb.equal(t.get(attribute2), value2),
+				cb.equal(t.get(attribute3), value3)));
+
+		TypedQuery<T> q = getEntityManager().createQuery(cq);
+		return q.getSingleResult();
+	}
+	
+	/**
+	 * The Class PredicatePair.
+	 */
+	public class PredicatePair<X> {
+		private SingularAttribute<X, ?> attribute;
+		private Object value;
+
+		/**
+		 * Instantiates a new predicate pair.
+		 *
+		 * @param attribute the attribute
+		 * @param value the value
+		 */
+		public PredicatePair(SingularAttribute<X, ?> attribute, Object value) {
+			super();
+			this.attribute = attribute;
+			this.value = value;
+		}
+
+		public SingularAttribute<X, ?> getAttribute() {
+			return attribute;
+		}
+
+		public void setAttribute(SingularAttribute<X, ?> attribute) {
+			this.attribute = attribute;
+		}
+
+		public Object getValue() {
+			return value;
+		}
+
+		public void setValue(Object value) {
+			this.value = value;
+		}
+	}	
+	
+	
+	/**
+	 * Find advanced.
+	 *
+	 * @param predicatePairs the predicate pairs
+	 * @return the t
+	 * @throws Exception the exception
+	 */
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public T findAdvanced(PredicatePair<T>[] predicatePairs) throws Exception {
+
+		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder(); // !
+																		
+		CriteriaQuery<T> cq = cb.createQuery(getTClass());
+		Root<T> t = cq.from(getTClass());
+		
+		List<Predicate> predicates = new ArrayList<>();
+		
+		for(PredicatePair<T> p : predicatePairs){
+			predicates.add(cb.equal(t.get(p.getAttribute()), p.getValue()));
+		}
+		
+		cq.where(cb.and(predicates.toArray(new Predicate[]{})));
+
+		TypedQuery<T> q = getEntityManager().createQuery(cq);
+		return q.getSingleResult();
+	}
+	
 
 	/**
 	 * Gets the managed entity.
@@ -926,21 +1107,6 @@ public abstract class ABaseDAO<T extends Object> {
 	// Single result
 	// ------------------------------------------------------------------
 
-	/**
-	 * Gets the single result.
-	 *
-	 * @param cq the cq
-	 * @return the single result
-	 * @throws Exception the exception
-	 */
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	public Object getSinleResult(CriteriaQuery<Object> cq) throws Exception {
-
-		// create query
-		// ----------------------------------------------------------------------------
-		TypedQuery<Object> q = getEntityManager().createQuery(cq);
-
-		return q.getSingleResult();
-	}
+	
 
 }

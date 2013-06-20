@@ -121,7 +121,7 @@ public abstract class ABaseTreeDAO<T extends Object> extends ABaseDAO<T>
 
 		cq.select(getEntityManager().getCriteriaBuilder().count(rt));
 
-		return ((Long) getSinleResult(cq)).longValue();
+		return ((Long) findAdvancedObj(cq)).longValue();
 	}
 
 }
