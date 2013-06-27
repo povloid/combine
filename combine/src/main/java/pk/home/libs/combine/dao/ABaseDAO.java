@@ -1,6 +1,7 @@
 package pk.home.libs.combine.dao;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -319,7 +320,7 @@ public abstract class ABaseDAO<T extends Object> {
 	 * @throws Exception the exception
 	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	public T findAdvanced(PredicatePair<T>[] predicatePairs) throws Exception {
+	public T findAdvanced(Collection<PredicatePair<T>> predicatePairs) throws Exception {
 
 		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder(); // !
 																		
