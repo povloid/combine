@@ -6,6 +6,7 @@ import java.io.InputStream;
 
 
 
+
 /**
  * The Class ABaseFileService.
  *
@@ -51,24 +52,26 @@ public abstract class ABaseFileService {
 	 * Save to file.
 	 *
 	 * @param inputStream the input stream
+	 * @param prefix the prefix
 	 * @param fileName the file name
 	 * @return the string
 	 * @throws Exception the exception
 	 */
-	public String saveToFile(InputStream inputStream, String fileName )
+	public String saveToFile(InputStream inputStream, String prefix, String fileName )
 			throws Exception {
-		String absoluteFilePath = null;
 		FileOutputStream fileOutputStream = null;
-
+		String filePath = null;
+		
 		try {
 			
-			String absDirPath = getBaseDirPath() + "//" + makeDirsStructurePath(); 
+			String dirsStructurePath = ( prefix != null ? prefix : "" ) 
+					+ "/" + makeDirsStructurePath();
 			
+			String absDirPath = getBaseDirPath() + "/" + dirsStructurePath; 
 			mkDirs(absDirPath);
 
-			absoluteFilePath = absDirPath + "//" + fileName;
-			
-			File result = new File(absDirPath + fileName);
+			filePath = dirsStructurePath + "/" + fileName;			
+			File result = new File(absDirPath + "/" + fileName);
 
 			fileOutputStream = new FileOutputStream(result);
 			byte[] buffer = new byte[getBufferSize()];
@@ -96,6 +99,6 @@ public abstract class ABaseFileService {
 			inputStream.close();
 		}
 
-		return absoluteFilePath;
+		return filePath.replace("///", "/").replace("//", "/");
 	}
 }
