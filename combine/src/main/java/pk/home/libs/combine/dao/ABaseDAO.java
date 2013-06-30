@@ -383,6 +383,7 @@ public abstract class ABaseDAO<T extends Object> {
 		Query q = getEntityManager().createQuery(cq);
 		return ((Long) q.getSingleResult()).longValue();
 	}
+	
 
 	// -------------------------------------------------------------------------------------------------------------
 
@@ -1071,8 +1072,75 @@ public abstract class ABaseDAO<T extends Object> {
 		return q.getResultList();
 	}
 
-	// Single result
-	// ------------------------------------------------------------------
+	// GET ALL ADVANCED
+	
+	/**
+	 * Gets the all entities advanced.
+	 *
+	 * @param predicatePairs the predicate pairs
+	 * @param all the all
+	 * @param firstResult the first result
+	 * @param maxResults the max results
+	 * @param orderByAttribute the order by attribute
+	 * @param sortOrder the sort order
+	 * @return the t
+	 * @throws Exception the exception
+	 */
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public List<T> getAllEntitiesAdvanced(
+			Collection<PredicatePair<T>> predicatePairs, boolean all,
+			int firstResult, int maxResults,
+			SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder)
+			throws Exception {
+
+		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder(); // !
+
+		CriteriaQuery<T> cq = cb.createQuery(getTClass());
+		Root<T> t = cq.from(getTClass());
+
+		List<Predicate> predicates = new ArrayList<>();
+
+		for (PredicatePair<T> p : predicatePairs) {
+			predicates.add(cb.equal(t.get(p.getAttribute()), p.getValue()));
+		}
+
+		cq.where(cb.and(predicates.toArray(new Predicate[] {})));
+
+		return getAllEntities(all, firstResult, maxResults, orderByAttribute,
+				sortOrder, cb, cq, t);
+	}
+	
+	/**
+	 * Count advanced.
+	 *
+	 * @param predicatePairs the predicate pairs
+	 * @return the t
+	 * @throws Exception the exception
+	 */
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public long countAdvanced(Collection<PredicatePair<T>> predicatePairs)
+			throws Exception {
+
+		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder(); // !
+
+		CriteriaQuery<Object> cq = cb.createQuery();
+		Root<T> t = cq.from(getTClass());
+
+		List<Predicate> predicates = new ArrayList<>();
+
+		for (PredicatePair<T> p : predicatePairs) {
+			predicates.add(cb.equal(t.get(p.getAttribute()), p.getValue()));
+		}
+
+		cq.where(cb.and(predicates.toArray(new Predicate[] {})));
+
+		return count(t, cq);
+	}
+	
+	
+	
+	
+	
 
 	
 
