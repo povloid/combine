@@ -1100,9 +1100,12 @@ public abstract class ABaseDAO<T extends Object> {
 
 		List<Predicate> predicates = new ArrayList<>();
 
-		for (PredicatePair<T> p : predicatePairs) {
-			predicates.add(cb.equal(t.get(p.getAttribute()), p.getValue()));
-		}
+		for (PredicatePair<T> p : predicatePairs)
+			if (p.getValue() == null)
+				predicates.add(cb.isNull(t.get(p.getAttribute())));
+			else
+				predicates.add(cb.equal(t.get(p.getAttribute()), p.getValue()));
+		
 
 		cq.where(cb.and(predicates.toArray(new Predicate[] {})));
 
@@ -1128,9 +1131,11 @@ public abstract class ABaseDAO<T extends Object> {
 
 		List<Predicate> predicates = new ArrayList<>();
 
-		for (PredicatePair<T> p : predicatePairs) {
-			predicates.add(cb.equal(t.get(p.getAttribute()), p.getValue()));
-		}
+		for (PredicatePair<T> p : predicatePairs)
+			if (p.getValue() == null)
+				predicates.add(cb.isNull(t.get(p.getAttribute())));
+			else
+				predicates.add(cb.equal(t.get(p.getAttribute()), p.getValue()));
 
 		cq.where(cb.and(predicates.toArray(new Predicate[] {})));
 
