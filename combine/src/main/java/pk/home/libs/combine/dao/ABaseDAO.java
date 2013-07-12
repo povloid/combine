@@ -237,14 +237,11 @@ public abstract class ABaseDAO<T extends Object> {
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public T findAdvanced(SingularAttribute<T, ?> attribute, Object value) throws Exception {
 		
-		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder(); // Только	так !
-		CriteriaQuery<T> cq = cb.createQuery(getTClass());
-		Root<T> t = cq.from(getTClass());
-
-		cb.equal(t.get(attribute), value);
+List<PredicatePair<T>> pplist = new ArrayList<>();
 		
-		TypedQuery<T> q = getEntityManager().createQuery(cq);
-		return q.getSingleResult();
+		pplist.add(new PredicatePair<>(attribute, value));
+		
+		return findAdvanced(pplist);
 	}
 	
 	/**
@@ -266,17 +263,12 @@ public abstract class ABaseDAO<T extends Object> {
 	public T findAdvanced(SingularAttribute<T, ?> attribute1, Object value1,
 			SingularAttribute<T, ?> attribute2, Object value2) throws Exception {
 
-		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder(); // Только
-																		// так !
-		CriteriaQuery<T> cq = cb.createQuery(getTClass());
-		Root<T> t = cq.from(getTClass());
-
-		cq.where(cb.and(
-				cb.equal(t.get(attribute1), value1),
-				cb.equal(t.get(attribute2), value2)));
-
-		TypedQuery<T> q = getEntityManager().createQuery(cq);
-		return q.getSingleResult();
+		List<PredicatePair<T>> pplist = new ArrayList<>();
+		
+		pplist.add(new PredicatePair<>(attribute1, value1));
+		pplist.add(new PredicatePair<>(attribute2, value2));
+		
+		return findAdvanced(pplist);
 	}
 	
 	/**
@@ -295,18 +287,13 @@ public abstract class ABaseDAO<T extends Object> {
 	public T findAdvanced(SingularAttribute<T, ?> attribute1, Object value1,
 			SingularAttribute<T, ?> attribute2, Object value2, SingularAttribute<T, ?> attribute3, Object value3) throws Exception {
 
-		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder(); // Только
-																		// так !
-		CriteriaQuery<T> cq = cb.createQuery(getTClass());
-		Root<T> t = cq.from(getTClass());
-
-		cq.where(cb.and(
-				cb.equal(t.get(attribute1), value1),
-				cb.equal(t.get(attribute2), value2),
-				cb.equal(t.get(attribute3), value3)));
-
-		TypedQuery<T> q = getEntityManager().createQuery(cq);
-		return q.getSingleResult();
+		List<PredicatePair<T>> pplist = new ArrayList<>();
+		
+		pplist.add(new PredicatePair<>(attribute1, value1));
+		pplist.add(new PredicatePair<>(attribute2, value2));
+		pplist.add(new PredicatePair<>(attribute3, value3));
+		
+		return findAdvanced(pplist);
 	}
 	
 	
@@ -330,7 +317,10 @@ public abstract class ABaseDAO<T extends Object> {
 		List<Predicate> predicates = new ArrayList<>();
 		
 		for(PredicatePair<T> p : predicatePairs){
-			predicates.add(cb.equal(t.get(p.getAttribute()), p.getValue()));
+			if(p.getValue() != null)
+				predicates.add(cb.equal(t.get(p.getAttribute()), p.getValue()));
+			else
+				predicates.add(cb.isNull(t.get(p.getAttribute())));
 		}
 		
 		cq.where(cb.and(predicates.toArray(new Predicate[]{})));
