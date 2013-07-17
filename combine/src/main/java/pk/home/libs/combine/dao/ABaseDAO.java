@@ -237,7 +237,7 @@ public abstract class ABaseDAO<T extends Object> {
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public T findAdvanced(SingularAttribute<T, ?> attribute, Object value) throws Exception {
 		
-List<PredicatePair<T>> pplist = new ArrayList<>();
+		List<PredicatePair<T>> pplist = new ArrayList<>();
 		
 		pplist.add(new PredicatePair<>(attribute, value));
 		
@@ -1132,11 +1132,72 @@ List<PredicatePair<T>> pplist = new ArrayList<>();
 		return count(t, cq);
 	}
 	
-	
-	
-	
+
+	/**
+	 * Count advanced.
+	 *
+	 * @param attribute the attribute
+	 * @param value the value
+	 * @return the long
+	 * @throws Exception the exception
+	 */
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public long countAdvanced(SingularAttribute<T, ?> attribute, Object value) throws Exception {
+		
+		List<PredicatePair<T>> pplist = new ArrayList<>();
+		
+		pplist.add(new PredicatePair<>(attribute, value));
+		
+		return countAdvanced(pplist);
+	}
 	
 
+	/**
+	 * Count advanced.
+	 *
+	 * @param attribute1 the attribute1
+	 * @param value1 the value1
+	 * @param attribute2 the attribute2
+	 * @param value2 the value2
+	 * @return the long
+	 * @throws Exception the exception
+	 */
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public long countAdvanced(SingularAttribute<T, ?> attribute1, Object value1,
+			SingularAttribute<T, ?> attribute2, Object value2) throws Exception {
+
+		List<PredicatePair<T>> pplist = new ArrayList<>();
+		
+		pplist.add(new PredicatePair<>(attribute1, value1));
+		pplist.add(new PredicatePair<>(attribute2, value2));
+		
+		return countAdvanced(pplist);
+	}
 	
+
+	/**
+	 * Count advanced.
+	 *
+	 * @param attribute1 the attribute1
+	 * @param value1 the value1
+	 * @param attribute2 the attribute2
+	 * @param value2 the value2
+	 * @param attribute3 the attribute3
+	 * @param value3 the value3
+	 * @return the long
+	 * @throws Exception the exception
+	 */
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public long countAdvanced(SingularAttribute<T, ?> attribute1, Object value1,
+			SingularAttribute<T, ?> attribute2, Object value2, SingularAttribute<T, ?> attribute3, Object value3) throws Exception {
+
+		List<PredicatePair<T>> pplist = new ArrayList<>();
+		
+		pplist.add(new PredicatePair<>(attribute1, value1));
+		pplist.add(new PredicatePair<>(attribute2, value2));
+		pplist.add(new PredicatePair<>(attribute3, value3));
+		
+		return countAdvanced(pplist);
+	}
 
 }
