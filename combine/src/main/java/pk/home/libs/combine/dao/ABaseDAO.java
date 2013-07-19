@@ -6,8 +6,10 @@ import java.util.List;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Selection;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -1056,14 +1058,17 @@ public abstract class ABaseDAO<T extends Object> {
 
 		if (!all) {
 			q.setMaxResults(maxResults);
-			System.out.println(">>>firstResult = " + firstResult);
 			q.setFirstResult(firstResult >= 0 ? firstResult : 0);
 		}
+		
 		return q.getResultList();
 	}
 
+	
+
 	// GET ALL ADVANCED
 	
+
 	/**
 	 * Gets the all entities advanced.
 	 *
@@ -1121,13 +1126,16 @@ public abstract class ABaseDAO<T extends Object> {
 
 		List<Predicate> predicates = new ArrayList<>();
 
-		for (PredicatePair<T> p : predicatePairs)
-			if (p.getValue() == null)
-				predicates.add(cb.isNull(t.get(p.getAttribute())));
-			else
-				predicates.add(cb.equal(t.get(p.getAttribute()), p.getValue()));
+		if (predicatePairs != null) {
+			for (PredicatePair<T> p : predicatePairs)
+				if (p.getValue() == null)
+					predicates.add(cb.isNull(t.get(p.getAttribute())));
+				else
+					predicates.add(cb.equal(t.get(p.getAttribute()),
+							p.getValue()));
 
-		cq.where(cb.and(predicates.toArray(new Predicate[] {})));
+			cq.where(cb.and(predicates.toArray(new Predicate[] {})));
+		}
 
 		return count(t, cq);
 	}
@@ -1199,5 +1207,96 @@ public abstract class ABaseDAO<T extends Object> {
 		
 		return countAdvanced(pplist);
 	}
+	
+	
+	// Multiselect
+	
+	/**
+	 * Gets the all entities advanced.
+	 *
+	 * @param selections the selections
+	 * @param predicatePairs the predicate pairs
+	 * @param all the all
+	 * @param firstResult the first result
+	 * @param maxResults the max results
+	 * @param orderByAttribute the order by attribute
+	 * @param sortOrder the sort order
+	 * @return the t
+	 * @throws Exception the exception
+	 */
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public List<Object[]> getAllEntitiesAdvancedMultiselect(
+			Collection<SelectionAtribute<T>> selections, Collection<PredicatePair<T>> predicatePairs, boolean all,
+			int firstResult, int maxResults, SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder)
+			throws Exception {
+
+		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder(); // !
+
+		CriteriaQuery<Object[]> cq = cb.createQuery(Object[].class);
+		Root<T> t = cq.from(getTClass());
+
+		// MULTISELECT
+		
+		List<Selection<?>> sl = new ArrayList<>();
+		for(SelectionAtribute<T> sa : selections){
+		
+			Path<?> path = t.get(sa.getRoot()); 
+			
+			if(sa.getPath() != null)
+				for(SingularAttribute<?, ?> satt : sa.getPath()){
+					path = path.get(satt.getName());
+				}
+			
+			sl.add(path);
+		}
+		
+		cq.multiselect(sl.toArray(new Selection<?>[]{}));
+		
+		
+		// PREDICATES
+		if (predicatePairs != null) {
+
+			List<Predicate> predicates = new ArrayList<>();
+
+			for (PredicatePair<T> p : predicatePairs)
+				if (p.getValue() == null)
+					predicates.add(cb.isNull(t.get(p.getAttribute())));
+				else
+					predicates.add(cb.equal(t.get(p.getAttribute()),
+							p.getValue()));
+
+			cq.where(cb.and(predicates.toArray(new Predicate[] {})));
+		}
+
+		// order by ------------------------------------------
+		if (orderByAttribute != null) {
+			switch (sortOrder) {
+			case DESC:
+				cq.orderBy(cb.desc(t.get(orderByAttribute)));
+				break;
+			case ASC:
+				cq.orderBy(cb.asc(t.get(orderByAttribute)));
+				break;
+			default:
+				cq.orderBy(cb.asc(t.get(orderByAttribute)));
+				break;
+			}
+		}
+
+		// Create query
+		TypedQuery<Object[]> q = getEntityManager().createQuery(cq);
+		
+		// limitation
+		if (!all) {
+			q.setMaxResults(maxResults);
+			q.setFirstResult(firstResult >= 0 ? firstResult : 0);
+		}
+
+		// Execute query
+		return q.getResultList();
+	}
+	
+	
+	
 
 }

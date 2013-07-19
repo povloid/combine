@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import pk.home.libs.combine.dao.ABaseDAO;
+import pk.home.libs.combine.dao.SelectionAtribute;
 import pk.home.libs.combine.dao.ABaseDAO.SortOrderType;
 import pk.home.libs.combine.dao.PredicatePair;
 
@@ -245,5 +246,25 @@ public abstract class ABaseService<T extends Object> {
 	}
 	
 	
-	
+	/**
+	 * Gets the all entities advanced.
+	 *
+	 * @param selections the selections
+	 * @param predicatePairs the predicate pairs
+	 * @param all the all
+	 * @param firstResult the first result
+	 * @param maxResults the max results
+	 * @param orderByAttribute the order by attribute
+	 * @param sortOrder the sort order
+	 * @return the t
+	 * @throws Exception the exception
+	 */
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public List<Object[]> getAllEntitiesAdvancedMultiselect(
+			Collection<SelectionAtribute<T>> selections, Collection<PredicatePair<T>> predicatePairs, boolean all,
+			int firstResult, int maxResults, SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder)
+			throws Exception {
+		return getAbstractBasicDAO()
+				.getAllEntitiesAdvancedMultiselect(selections, predicatePairs, all, firstResult, maxResults, orderByAttribute, sortOrder);
+	}
 }
