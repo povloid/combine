@@ -50,6 +50,20 @@ public class AWFWizart implements Serializable {
 	}
 	
 	/**
+	 * Find bean for name.
+	 *
+	 * @param <Z> the generic type
+	 * @param name the name
+	 * @param requiredType the required type
+	 * @return the z
+	 */
+	public <Z> Z findBean(String name, Class<Z> requiredType) {
+		ApplicationContext ctx = FacesContextUtils
+				.getWebApplicationContext(FacesContext.getCurrentInstance());
+		return (Z) ctx.getBean(name, requiredType);
+	}
+	
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 8445761204034590599L;
