@@ -16,8 +16,9 @@ import pk.home.libs.combine.dao.PredicatePair;
 
 /**
  * The Class ABaseService.
- *
- * @param <T> the generic type
+ * 
+ * @param <T>
+ *            the generic type
  * @author Kopychenko Pavel
  * @date Jun 12, 2012
  */
@@ -25,17 +26,19 @@ public abstract class ABaseService<T extends Object> {
 
 	/**
 	 * Gets the abstract basic dao.
-	 *
+	 * 
 	 * @return the abstract basic dao
 	 */
 	public abstract ABaseDAO<T> getAbstractBasicDAO();
 
 	/**
 	 * Persist.
-	 *
-	 * @param o the o
+	 * 
+	 * @param o
+	 *            the o
 	 * @return the t
-	 * @throws Exception the exception
+	 * @throws Exception
+	 *             the exception
 	 */
 	@Transactional(propagation = Propagation.REQUIRED)
 	public T persist(T o) throws Exception {
@@ -45,10 +48,12 @@ public abstract class ABaseService<T extends Object> {
 
 	/**
 	 * Refresh.
-	 *
-	 * @param o the o
+	 * 
+	 * @param o
+	 *            the o
 	 * @return the t
-	 * @throws Exception the exception
+	 * @throws Exception
+	 *             the exception
 	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public T refresh(T o) throws Exception {
@@ -58,23 +63,25 @@ public abstract class ABaseService<T extends Object> {
 
 	/**
 	 * Merge.
-	 *
-	 * @param o the o
+	 * 
+	 * @param o
+	 *            the o
 	 * @return the t
-	 * @throws Exception the exception
+	 * @throws Exception
+	 *             the exception
 	 */
 	@Transactional(propagation = Propagation.REQUIRED)
 	public T merge(T o) throws Exception {
 		return getAbstractBasicDAO().merge(o);
 	}
 
-	
-	
 	/**
 	 * Removes the.
-	 *
-	 * @param object the object
-	 * @throws Exception the exception
+	 * 
+	 * @param object
+	 *            the object
+	 * @throws Exception
+	 *             the exception
 	 */
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void remove(T object) throws Exception {
@@ -84,34 +91,38 @@ public abstract class ABaseService<T extends Object> {
 
 	/**
 	 * Find.
-	 *
-	 * @param key the key
+	 * 
+	 * @param key
+	 *            the key
 	 * @return the t
-	 * @throws Exception the exception
+	 * @throws Exception
+	 *             the exception
 	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public T find(Object key) throws Exception {
 		return getAbstractBasicDAO().find(key);
 	}
-	
+
 	/**
 	 * Find advanced.
-	 *
-	 * @param cq the cq
+	 * 
+	 * @param cq
+	 *            the cq
 	 * @return the <T>
-	 * @throws Exception the exception
+	 * @throws Exception
+	 *             the exception
 	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public T findAdvanced(CriteriaQuery<T> cq) throws Exception {
 		return getAbstractBasicDAO().findAdvanced(cq);
 	}
-	
 
 	/**
 	 * Gets the all entities.
-	 *
+	 * 
 	 * @return the all entities
-	 * @throws Exception the exception
+	 * @throws Exception
+	 *             the exception
 	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<T> getAllEntities() throws Exception {
@@ -120,11 +131,14 @@ public abstract class ABaseService<T extends Object> {
 
 	/**
 	 * Gets the all entities.
-	 *
-	 * @param orderByAttribute the order by attribute
-	 * @param sortOrder the sort order
+	 * 
+	 * @param orderByAttribute
+	 *            the order by attribute
+	 * @param sortOrder
+	 *            the sort order
 	 * @return the all entities
-	 * @throws Exception the exception
+	 * @throws Exception
+	 *             the exception
 	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<T> getAllEntities(SingularAttribute<T, ?> orderByAttribute,
@@ -133,15 +147,16 @@ public abstract class ABaseService<T extends Object> {
 				.getAllEntities(orderByAttribute, sortOrder);
 	}
 
-	
-	
 	/**
 	 * Gets the all entities.
-	 *
-	 * @param firstResult the first result
-	 * @param maxResults the max results
+	 * 
+	 * @param firstResult
+	 *            the first result
+	 * @param maxResults
+	 *            the max results
 	 * @return the all entities
-	 * @throws Exception the exception
+	 * @throws Exception
+	 *             the exception
 	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<T> getAllEntities(int firstResult, int maxResults)
@@ -151,13 +166,18 @@ public abstract class ABaseService<T extends Object> {
 
 	/**
 	 * Gets the all entities.
-	 *
-	 * @param firstResult the first result
-	 * @param maxResults the max results
-	 * @param orderByAttribute the order by attribute
-	 * @param sortOrder the sort order
+	 * 
+	 * @param firstResult
+	 *            the first result
+	 * @param maxResults
+	 *            the max results
+	 * @param orderByAttribute
+	 *            the order by attribute
+	 * @param sortOrder
+	 *            the sort order
 	 * @return the all entities
-	 * @throws Exception the exception
+	 * @throws Exception
+	 *             the exception
 	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<T> getAllEntities(int firstResult, int maxResults,
@@ -169,14 +189,20 @@ public abstract class ABaseService<T extends Object> {
 
 	/**
 	 * Gets the all entities.
-	 *
-	 * @param all the all
-	 * @param firstResult the first result
-	 * @param maxResults the max results
-	 * @param orderByAttribute the order by attribute
-	 * @param sortOrder the sort order
+	 * 
+	 * @param all
+	 *            the all
+	 * @param firstResult
+	 *            the first result
+	 * @param maxResults
+	 *            the max results
+	 * @param orderByAttribute
+	 *            the order by attribute
+	 * @param sortOrder
+	 *            the sort order
 	 * @return the all entities
-	 * @throws Exception the exception
+	 * @throws Exception
+	 *             the exception
 	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<T> getAllEntities(boolean all, int firstResult, int maxResults,
@@ -188,15 +214,16 @@ public abstract class ABaseService<T extends Object> {
 
 	/**
 	 * Count.
-	 *
+	 * 
 	 * @return the long
-	 * @throws Exception the exception
+	 * @throws Exception
+	 *             the exception
 	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public long count() throws Exception {
 		return getAbstractBasicDAO().count();
 	}
-	
+
 	// GET ALL ADVANCED
 
 	/**
@@ -230,6 +257,39 @@ public abstract class ABaseService<T extends Object> {
 	}
 
 	/**
+	 * Gets the all entities advanced.
+	 * 
+	 * @param filtredByAttribute
+	 *            the filtred by attribute
+	 * @param filter
+	 *            the filter
+	 * @param all
+	 *            the all
+	 * @param firstResult
+	 *            the first result
+	 * @param maxResults
+	 *            the max results
+	 * @param orderByAttribute
+	 *            the order by attribute
+	 * @param sortOrder
+	 *            the sort order
+	 * @return the all entities advanced
+	 * @throws Exception
+	 *             the exception
+	 */
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public List<T> getAllEntitiesAdvanced(
+			SingularAttribute<T, ?> filtredByAttribute, Object filter,
+			boolean all, int firstResult, int maxResults,
+			SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder)
+			throws Exception {
+
+		return getAbstractBasicDAO().getAllEntitiesAdvanced(filtredByAttribute,
+				filter, all, firstResult, maxResults, orderByAttribute,
+				sortOrder);
+	}
+
+	/**
 	 * Count advanced.
 	 * 
 	 * @param predicatePairs
@@ -244,27 +304,37 @@ public abstract class ABaseService<T extends Object> {
 
 		return getAbstractBasicDAO().countAdvanced(predicatePairs);
 	}
-	
-	
+
 	/**
 	 * Gets the all entities advanced.
-	 *
-	 * @param selections the selections
-	 * @param predicatePairs the predicate pairs
-	 * @param all the all
-	 * @param firstResult the first result
-	 * @param maxResults the max results
-	 * @param orderByAttribute the order by attribute
-	 * @param sortOrder the sort order
+	 * 
+	 * @param selections
+	 *            the selections
+	 * @param predicatePairs
+	 *            the predicate pairs
+	 * @param all
+	 *            the all
+	 * @param firstResult
+	 *            the first result
+	 * @param maxResults
+	 *            the max results
+	 * @param orderByAttribute
+	 *            the order by attribute
+	 * @param sortOrder
+	 *            the sort order
 	 * @return the t
-	 * @throws Exception the exception
+	 * @throws Exception
+	 *             the exception
 	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<Object[]> getAllEntitiesAdvancedMultiselect(
-			Collection<SelectionAtribute<T>> selections, Collection<PredicatePair<T>> predicatePairs, boolean all,
-			int firstResult, int maxResults, SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder)
+			Collection<SelectionAtribute<T>> selections,
+			Collection<PredicatePair<T>> predicatePairs, boolean all,
+			int firstResult, int maxResults,
+			SingularAttribute<T, ?> orderByAttribute, SortOrderType sortOrder)
 			throws Exception {
-		return getAbstractBasicDAO()
-				.getAllEntitiesAdvancedMultiselect(selections, predicatePairs, all, firstResult, maxResults, orderByAttribute, sortOrder);
+		return getAbstractBasicDAO().getAllEntitiesAdvancedMultiselect(
+				selections, predicatePairs, all, firstResult, maxResults,
+				orderByAttribute, sortOrder);
 	}
 }
