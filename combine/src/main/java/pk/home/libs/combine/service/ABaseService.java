@@ -10,9 +10,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import pk.home.libs.combine.dao.ABaseDAO;
-import pk.home.libs.combine.dao.SelectionAtribute;
 import pk.home.libs.combine.dao.ABaseDAO.SortOrderType;
 import pk.home.libs.combine.dao.PredicatePair;
+import pk.home.libs.combine.dao.SelectionAtribute;
 
 /**
  * The Class ABaseService.
@@ -115,6 +115,83 @@ public abstract class ABaseService<T extends Object> {
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public T findAdvanced(CriteriaQuery<T> cq) throws Exception {
 		return getAbstractBasicDAO().findAdvanced(cq);
+	}
+
+	/**
+	 * Find advanced.
+	 * 
+	 * @param attribute
+	 *            the attribute
+	 * @return the <T>
+	 * @throws Exception
+	 *             the exception
+	 */
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public T findAdvanced(SingularAttribute<T, ?> attribute, Object value)
+			throws Exception {
+		return getAbstractBasicDAO().findAdvanced(attribute, value);
+	}
+
+	/**
+	 * Find advanced.
+	 * 
+	 * @param attribute1
+	 *            the attribute1
+	 * @param value1
+	 *            the value1
+	 * @param attribute2
+	 *            the attribute2
+	 * @param value2
+	 *            the value2
+	 * @return the <T>
+	 * @throws Exception
+	 *             the exception
+	 */
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public T findAdvanced(SingularAttribute<T, ?> attribute1, Object value1,
+			SingularAttribute<T, ?> attribute2, Object value2) throws Exception {
+		return getAbstractBasicDAO().findAdvanced(attribute1, value1, attribute2, value2);
+	}
+
+	/**
+	 * Find advanced.
+	 * 
+	 * @param attribute1
+	 *            the attribute1
+	 * @param value1
+	 *            the value1
+	 * @param attribute2
+	 *            the attribute2
+	 * @param value2
+	 *            the value2
+	 * @param attribute3
+	 *            the attribute3
+	 * @param value3
+	 *            the value3
+	 * @return the <T>
+	 * @throws Exception
+	 *             the exception
+	 */
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public T findAdvanced(SingularAttribute<T, ?> attribute1, Object value1,
+			SingularAttribute<T, ?> attribute2, Object value2,
+			SingularAttribute<T, ?> attribute3, Object value3) throws Exception {
+		return getAbstractBasicDAO().findAdvanced(attribute1, value1, attribute2, value2, attribute3, value3);
+	}
+
+	/**
+	 * Find advanced.
+	 * 
+	 * @param predicatePairs
+	 *            the predicate pairs
+	 * @return the t
+	 * @throws Exception
+	 *             the exception
+	 */
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public T findAdvanced(Collection<PredicatePair<T>> predicatePairs)
+			throws Exception {
+		return getAbstractBasicDAO().findAdvanced(predicatePairs);
 	}
 
 	/**
