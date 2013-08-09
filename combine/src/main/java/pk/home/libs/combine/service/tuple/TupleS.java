@@ -37,6 +37,29 @@ public class TupleS extends ArrayList<TupleElementS>
 	}
 	
 	/**
+	 * Merge.
+	 *
+	 * @param tuples1 the tuples1
+	 * @param tuples2 the tuples2
+	 * @param key the key
+	 * @return the list
+	 */
+	public static List<TupleS> merge(List<TupleS> tuples1, List<TupleS> tuples2, String key) {
+		
+		for(TupleS ts1: tuples1)
+			for(TupleS ts2: tuples2)
+				if(ts1.get(key).equals(ts2.get(key))){
+					ts1.addAll(ts2);
+					break;
+				}
+		
+		return tuples1;
+	}
+	
+	
+	
+	
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
@@ -78,7 +101,7 @@ public class TupleS extends ArrayList<TupleElementS>
 	 */
 	public Object get(Object key) {
 		for(TupleElementS te : this)
-			if(te.getAlias().equals(key))
+			if(te.getAlias() != null && te.getAlias().equals(key))
 				return te.value;
 		
 		return null;
