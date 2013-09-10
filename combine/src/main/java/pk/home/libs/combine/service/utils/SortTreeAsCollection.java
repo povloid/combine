@@ -26,7 +26,7 @@ public abstract class SortTreeAsCollection<T,P> {
 				sortRecursive(inCollection, outCollection, a);
 		
 		if(desc)
-			Collections.reverse((List<?>) outCollection);
+			Collections.reverse(outCollection);
 	
 		return outCollection;
 	}
