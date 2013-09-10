@@ -17,9 +17,9 @@ public abstract class SortTreeAsCollection<T,P> {
 	 * @return the collection
 	 * @throws Exception the exception
 	 */
-	public Collection<T> sort(Collection<T> inCollection, boolean desc) throws Exception {
+	public List<T> sort(Collection<T> inCollection, boolean desc) throws Exception {
 		
-		Collection<T> outCollection = new ArrayList<>();
+		List<T> outCollection = new ArrayList<>();
 		
 		for(T a: inCollection)
 			if(getParentElement(a) == null)
@@ -40,7 +40,7 @@ public abstract class SortTreeAsCollection<T,P> {
 	 * @param outCollection the out collection
 	 * @param parent the parent
 	 */
-	private void sortRecursive(Collection<T> inCollection, Collection<T> outCollection, T parent){
+	private void sortRecursive(Collection<T> inCollection, List<T> outCollection, T parent){
 		
 		outCollection.add(parent);
 		
