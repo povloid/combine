@@ -21,9 +21,9 @@ public abstract class SortTreeAsCollection<T,P> {
 		
 		List<T> outCollection = new ArrayList<>();
 		
-		for(T a: inCollection)
-			if(getParentElement(a) == null)
-				sortRecursive(inCollection, outCollection, a);
+		for(T e: inCollection)
+			if(isRootElement(e))
+				sortRecursive(inCollection, outCollection, e);
 		
 		if(desc)
 			Collections.reverse(outCollection);
@@ -32,39 +32,41 @@ public abstract class SortTreeAsCollection<T,P> {
 	}
 	
 	
-	
 	/**
 	 * Sort recursive.
 	 *
 	 * @param inCollection the in collection
 	 * @param outCollection the out collection
 	 * @param parent the parent
+	 * @throws Exception the exception
 	 */
-	private void sortRecursive(Collection<T> inCollection, List<T> outCollection, T parent){
+	private void sortRecursive(Collection<T> inCollection, List<T> outCollection, T parent) throws Exception{
 		
 		outCollection.add(parent);
 		
-		for(T a: inCollection)
-			if(getParentElement(a) != null && getParentElement(a).equals(getElement(parent)))
-				sortRecursive(inCollection, outCollection, a);
+		for(T e: inCollection)
+			if(isParentElement(e, parent))
+				sortRecursive(inCollection, outCollection, e);
 	}
 	
 	
 	/**
-	 * Gets the parent.
+	 * Checks if is root element.
 	 *
-	 * @param o the o
-	 * @return the parent
+	 * @param e the e
+	 * @return true, if is root element
+	 * @throws Exception the exception
 	 */
-	protected abstract P getParentElement(T o);
+	protected abstract boolean isRootElement(T e) throws Exception;
 	
 	/**
-	 * Gets the element.
+	 * Gets the parent.
 	 *
-	 * @param o the o
-	 * @return the element
+	 * @param e the e
+	 * @param parent the parent
+	 * @return the parent
+	 * @throws Exception the exception
 	 */
-	protected abstract P getElement(T o);
-	
+	protected abstract boolean isParentElement(T e, T parent)  throws Exception;
 
 }
